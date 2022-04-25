@@ -10,7 +10,7 @@ router.get('/', async function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
     let id = req.params.id;
-    console.log("Get card with Id" + id)
+    console.log("Get card with Id " + id)
     let result = await cModel.getCardById(id);
     res.status(result.status).send(result.result);
 });
