@@ -1,5 +1,5 @@
 
-const width = 1425;
+const width = 400;
 const height = 400;
 const warpX = 150
 const warpY = 200
