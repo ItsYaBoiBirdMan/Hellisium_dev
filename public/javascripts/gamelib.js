@@ -9,7 +9,7 @@ var cards
 async function setup() {
     var canvas = createCanvas(width, height);
     canvas.parent('game');
-    cards = await getCard(1);
+    cards = await getCard(2);
 }
 async function draw() {
     background(220);
