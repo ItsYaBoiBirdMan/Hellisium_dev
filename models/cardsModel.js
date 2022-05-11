@@ -2,7 +2,7 @@ var pool = require('./connection.js')
 
 module.exports.getAllCards = async function () {
     try {
-      let sql = `Select * from card order by card_id asc`;
+      let sql = `Select * from deck, card where deck_card_id = card_id`;
       let result = await pool.query(sql);
       let cards = result.rows;
       return { status: 200, result: cards };
