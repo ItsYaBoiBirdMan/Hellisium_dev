@@ -5,8 +5,8 @@ module.exports.getPlayerInfo = async function () {
         let sql = `select * from player`;
         let result = await pool.query(sql);
         if (result.rows.length > 0) {
-            let player = result.rows;
-            return { status: 200, result: player };
+            let players = result.rows;
+            return { status: 200, result: players };
         } else {
             return { status: 404, result: { msg: "No players found" } };
         }
