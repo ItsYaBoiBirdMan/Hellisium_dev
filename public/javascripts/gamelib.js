@@ -1,4 +1,3 @@
-
 const width = 400;
 const height = 400;
 const warpX = 150
@@ -9,7 +8,7 @@ var cards
 async function setup() {
     var canvas = createCanvas(width, height);
     canvas.parent('game');
-    cards = await getCard(2);
+    cards = await getCard(1);
 }
 async function draw() {
     background(220);
@@ -18,7 +17,7 @@ async function draw() {
         text(cards.card_name, (width / 2) - 50, 50, warpX, warpY);
         text('ATK', (width / 2) - 57, 135, warpX, warpY);
         text('HP', (width / 2) + 17, 135, warpX, warpY);
-        text(cards.card_hp, (width / 2) + 25, 170, warpX, warpY);
+        text(cards.deck_current_hp, (width / 2) + 25, 170, warpX, warpY);
         text(cards.card_atk, (width / 2) - 40, 170, warpX, warpY);
     }
 }

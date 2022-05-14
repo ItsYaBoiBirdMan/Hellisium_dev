@@ -29,3 +29,35 @@ async function getCard(cardId) {
         console.log(err);
     }
 }
+
+async function createDecks () {
+    try {
+        const response = await fetch(`/api/cards/decks`);
+        if (response.status == 200) {
+           var decks = await response.json();
+           return decks;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function resetDecks () {
+    try {
+        const response = await fetch(`/api/cards/decks/drops`);
+        if (response.status == 200) {
+           var decks = await response.json();
+           return decks;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

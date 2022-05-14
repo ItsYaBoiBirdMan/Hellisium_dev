@@ -15,4 +15,16 @@ router.get('/:id', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
+router.post('/decks', async function(req, res, next) {
+    console.log('Decks created')
+    let result = await cModel.createPlayerDecks();
+    res.status(result.status).send(result.result);
+});
+
+router.post('/decks/drops', async function(req, res, next) {
+    console.log('Decks droped')
+    let result = await cModel.dropDecks();
+    res.status(result.status).send(result.result);
+});
+
 module.exports = router;
