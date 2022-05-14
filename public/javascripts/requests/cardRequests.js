@@ -1,4 +1,4 @@
-async function getCards() {
+async function requestAllCards() {
     try {
         const response = await fetch(`/api/cards`);
         if (response.status == 200) {
@@ -14,7 +14,7 @@ async function getCards() {
     }
 }
 
-async function getCard(cardId) {
+async function requestCardById(cardId) {
     try {
         const response = await fetch(`/api/cards/${cardId}`);
         if (response.status == 200) {
@@ -30,7 +30,7 @@ async function getCard(cardId) {
     }
 }
 
-async function createDecks () {
+async function createDecks() {
     try {
         const response = await fetch(`/api/cards/decks`);
         if (response.status == 200) {
@@ -46,7 +46,7 @@ async function createDecks () {
     }
 }
 
-async function resetDecks () {
+async function resetDecks() {
     try {
         const response = await fetch(`/api/cards/decks/drops`);
         if (response.status == 200) {
