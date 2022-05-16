@@ -13,4 +13,5 @@ router.get('/:id', async function(req, res, next) {
     let result = await pModel.getPlayerById(id);
     res.status(result.status).send(result.result);
 });
+
 module.exports = router;

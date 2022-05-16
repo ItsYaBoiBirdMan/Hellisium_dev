@@ -3,7 +3,8 @@ var ply = require('./playerModel')
 
 module.exports.getAllCards = async function () {
     try {
-      let sql = `Select * from card`;
+      let sql = `Select * from deck, card
+                 where deck_card_id = card_id`;
       let result = await pool.query(sql);
       let cards = result.rows;
       return { status: 200, result: cards };
@@ -12,6 +13,25 @@ module.exports.getAllCards = async function () {
       return { status: 500, result: err };
     }
   }
+
+  module.exports.getPlayerDeckById = async function (pId) {
+    try {
+      let sql = `Select *
+                 from deck, card, player
+                 where deck_player_id = $1 and deck_player_id = player_id and deck_card_id = card_id`;
+      let result = await pool.query(sql, [pId]);
+      if (result.rows.length > 0) {
+        let card = result.rows;
+        return { status: 200, result: card };
+      } else {
+        return { status: 404, result: { msg: "No player with that id" } };
+      }
+    } catch (err) {
+      console.log(err);
+      return { status: 500, result: err };
+    }
+  }
+  
 
 module.exports.getCardById = async function (id) {
   try {
@@ -55,13 +75,25 @@ module.exports.createPlayerDecks = async function () {
                values(default, 1, 2, 1, 6);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
                values(default, 1, 3, 1, 4);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 1, 4, 1, 15);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 1, 5, 1, 12);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 1, 6, 1, 3);
                
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
                values(default, 2, 1, 1, 8);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
                values(default, 2, 2, 1, 6);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 3, 1, 4)`;
+               values(default, 2, 3, 1, 4);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 2, 4, 1, 15);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 2, 5, 1, 12);
+               insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
+               values(default, 2, 6, 1, 3)`;
 
     let result = await pool.query(sql);
     let deck = result.rows;

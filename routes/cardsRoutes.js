@@ -15,6 +15,13 @@ router.get('/:id', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
+router.get('/playerdeck/:pId', async function(req, res, next) {
+    let pId = req.params.pId;
+    console.log("Get deck of player with id " + pId)
+    let result = await cModel.getPlayerDeckById(pId);
+    res.status(result.status).send(result.result);
+});
+
 router.post('/decks', async function(req, res, next) {
     console.log('Decks created')
     let result = await cModel.createPlayerDecks();

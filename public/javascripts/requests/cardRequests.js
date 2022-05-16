@@ -30,7 +30,23 @@ async function requestCardById(cardId) {
     }
 }
 
-async function createDecks() {
+async function requestPlayerDeck(pId) {
+    try {
+        const response = await fetch(`/api/cards/playerdeck/${pId}`);
+        if (response.status == 200) {
+           var room = await response.json();
+           return room;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function requestCreateDecks() {
     try {
         const response = await fetch(`/api/cards/decks`);
         if (response.status == 200) {
@@ -46,7 +62,7 @@ async function createDecks() {
     }
 }
 
-async function resetDecks() {
+async function requestResetDecks() {
     try {
         const response = await fetch(`/api/cards/decks/drops`);
         if (response.status == 200) {
