@@ -10,7 +10,7 @@ class Card {
         this.hp = hp;
         this.x = x;
         this.y = y;
-        this.enabled = false;
+        this.enabled = true;
         this.selected = false;
     }
     draw() {
