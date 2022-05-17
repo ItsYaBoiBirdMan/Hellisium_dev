@@ -52,7 +52,7 @@ module.exports.endGame = async function (gId) {
     try {
         let sql = `delete from game
                    where game_id = $1;
-                   ALTER SEQUENCE turn_turn_id_seq RESTART WITH 1`;
+                   ALTER SEQUENCE turn_turn_id_seq RESTART WITH 1`; // weird error: cannot insert multiple commands into a prepared statement (also when I tried to make the same thing with the deck inserts)
         let result = await pool.query(sql, [gId])
         let end = result.rows;
         return { status: 200, result: end };
