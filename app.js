@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cardsRouter = require('./routes/cardsRoutes');
 var playerRouter = require('./routes/playerRoutes');
+var gameRouter = require('./routes/gameRoutes');
 var app = express();
 
 app.use(logger('dev'));
@@ -19,5 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/cards',cardsRouter);
-app.use('/api/players', playerRouter)
+app.use('/api/players', playerRouter);
+app.use('/api/game', gameRouter)
 module.exports = app;

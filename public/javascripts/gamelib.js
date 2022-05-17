@@ -23,11 +23,6 @@ const OPY = 20;
 
 var cards
 
-async function loadInfoBoard() {
-    let myCards = await requestPlayerDeck(1);
-    let opCards = await requestPlayerDeck(2);
-    InfoBoard = new PlayerInfoBoard(myCards.player_id, myCards.player_name, opCards.player_name, myCards.player_hp, opCards.player_hp);
-}
 
 
 async function setup() {
@@ -61,5 +56,4 @@ async function draw() {
     for (let card of hand){
         card.draw();
     }
-    InfoBoard.draw()
 }

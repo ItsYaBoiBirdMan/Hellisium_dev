@@ -1,5 +1,4 @@
 var pool = require('./connection.js');
-var ply = require('./playerModel')
 
 module.exports.getAllCards = async function () {
     try {
