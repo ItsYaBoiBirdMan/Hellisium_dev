@@ -16,7 +16,7 @@ module.exports.getPlayerInfo = async function () {
     }    
 }
 
-module.exports.getPlayerById = async function (id) {
+module.exports.getPlayerInfoById = async function (id) {
     try {
         let sql = `select * from player where player_id = $1`
         let result = await pool.query(sql, [id]);

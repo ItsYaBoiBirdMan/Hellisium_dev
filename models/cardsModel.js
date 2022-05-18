@@ -17,7 +17,8 @@ module.exports.getAllCards = async function () {
     try {
       let sql = `Select *
                  from deck, card, player
-                 where deck_player_id = $1 and deck_player_id = player_id and deck_card_id = card_id`;
+                 where deck_player_id = $1 and deck_player_id = player_id and deck_card_id = card_id
+                 order by deck_id asc`;
       let result = await pool.query(sql, [pId]);
       if (result.rows.length > 0) {
         let card = result.rows;
@@ -110,6 +111,20 @@ module.exports.dropDecks = async function () {
     let result = await pool.query(sql)
     let drops = result.rows;
     return { status: 200, result: drops };
+
+  } catch (err) {
+    console.log(err);
+    return { status: 500, result: err };
+  }
+}
+
+module.exports.placeCardOnSlot = async function (placeId, cardId, pId) {
+  try {
+    let sql = `update deck set deck_card_place = $1
+               where deck_card_id = $2 and deck_player_id = $3`;
+    let result = await pool.query(sql, [placeId, cardId, pId])
+    let place = result.rows;
+    return { status: 200, result: place };
 
   } catch (err) {
     console.log(err);

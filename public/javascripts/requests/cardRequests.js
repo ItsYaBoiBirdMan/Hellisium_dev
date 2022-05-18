@@ -18,8 +18,8 @@ async function requestCardById(cardId) {
     try {
         const response = await fetch(`/api/cards/${cardId}`);
         if (response.status == 200) {
-           var room = await response.json();
-           return room;
+           var card = await response.json();
+           return card;
         } else {
             // Treat errors like 404 here
             console.log(response);
@@ -34,8 +34,8 @@ async function requestPlayerDeck(pId) {
     try {
         const response = await fetch(`/api/cards/playerdeck/${pId}`);
         if (response.status == 200) {
-           var room = await response.json();
-           return room;
+           var playerDeck = await response.json();
+           return playerDeck;
         } else {
             // Treat errors like 404 here
             console.log(response);
@@ -66,8 +66,24 @@ async function requestResetDecks() {
     try {
         const response = await fetch(`/api/cards/decks/drops`);
         if (response.status == 200) {
-           var decks = await response.json();
-           return decks;
+           var drop = await response.json();
+           return drop;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function requestPlaceCardOnSlot (pId, cId, plcId) {
+    try {
+        const response = await fetch(`/api/cards/actions/${pId}/${cId}/${plcId}`);
+        if (response.status == 200) {
+           var place = await response.json();
+           return place;
         } else {
             // Treat errors like 404 here
             console.log(response);

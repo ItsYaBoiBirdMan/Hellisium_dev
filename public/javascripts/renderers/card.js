@@ -3,7 +3,7 @@ const CHEIGHT = 140;
 const STATHEIGHT = 125
 
 class Card {
-    constructor(id, name, atk, hp, x, y) {
+    constructor(id, name, atk, hp, x, y, place) {
         this.id=id;
         this.name = name;
         this.atk = atk;
@@ -12,6 +12,7 @@ class Card {
         this.y = y;
         this.enabled = true;
         this.selected = false;
+        this.place = place
     }
     draw() {
         if (this.selected) {
@@ -27,6 +28,8 @@ class Card {
         } else {
             stroke(0, 0, 0);
         }
+
+        if (this.place === 1){
         rect(this.x, this.y, CWIDTH, CHEIGHT, 2, 2, 2, 2);
         fill(0, 0, 0);
         stroke(0, 0, 0);
@@ -36,7 +39,7 @@ class Card {
         textAlign(LEFT, CENTER);
         text("HP: " + this.hp, this.x + 55, this.y + STATHEIGHT);
         text("ATK: " + this.atk, this.x + 10, this.y + STATHEIGHT);
-
+        }
     }
     getId() { return this.id;}
     
