@@ -150,6 +150,7 @@ async function PlaceCard (pId, cId, plcId) {
 
 function mouseClicked() {
     let card
+    let slot
     
     card = returnSelected(hand);
     if (card) {
@@ -159,11 +160,22 @@ function mouseClicked() {
             card.click(mouseX, mouseY)
         } 
     }
+    slot = returnSelected(slots)
+    if (slot) {
+        slot.click(mouseX, mouseY)
+    } else {
+        for (let slot of slots){
+            slot.click(mouseX, mouseY)
+        } 
+    }
 }
 
 function returnSelected(cardList) {
     for(let card of cardList) {
         if (card.isSelected()) return card;
+    }
+    for (let slot of slots){
+        if (slot.isSelected()) return slot;
     }
     return null;
 }

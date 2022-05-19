@@ -41,8 +41,6 @@ class Card {
     getHp() { return this.hp; }
     setHp(hp) { this.hp = hp }
     
-    enable() { this.enabled = true }
-    disable() { this.enabled = false }
     
     isSelected() { return this.selected; }
     deselect() {this.selected = false;}
