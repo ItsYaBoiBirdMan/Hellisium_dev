@@ -80,7 +80,7 @@ async function requestResetDecks() {
 
 async function requestPlaceCardOnSlot (pId, cId, plcId) {
     try {
-        const response = await fetch(`/api/cards/actions/${pId}/${cId}/${plcId}`);
+        const response = await fetch(`/api/cards/actions/player/${pId}/card/${cId}/place/${plcId}`);
         if (response.status == 200) {
            var place = await response.json();
            return place;

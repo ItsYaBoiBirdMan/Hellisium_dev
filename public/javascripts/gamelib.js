@@ -8,14 +8,38 @@ var scoreBoard;
 const CARDSPACE = 120;
 
 var hand = [];
-const HANDX = 900;
+const HANDX = 1050;
 const HANDY = {};
-HANDY.upper = 270
-HANDY.lower = HANDY.upper + 155
+HANDY.upper = 140
+HANDY.middle = HANDY.upper + 155
+HANDY.lower = HANDY.middle + 155
 
 var table = [];
-const TABLEX = 400;
-const TABLEY = 200;
+const TABLE = {}
+TABLE.one = {}
+TABLE.two = {}
+TABLE.three = {}
+TABLE.four = {}
+TABLE.five = {}
+TABLE.six = {}
+
+TABLE.one.x = 200
+TABLE.one.y = 300
+
+TABLE.two.x = TABLE.one.x + CARDSPACE
+TABLE.two.y = TABLE.one.y
+
+TABLE.three.x = TABLE.two.x + CARDSPACE
+TABLE.three.y = TABLE.one.y
+
+TABLE.four.x = TABLE.one.x
+TABLE.four.y = TABLE.one.y + 150
+
+TABLE.five.x = TABLE.two.x
+TABLE.five.y = TABLE.four.y
+
+TABLE.six.x = TABLE.three.x
+TABLE.six.y = TABLE.four.y
 
 var opponent = [];
 
@@ -39,25 +63,48 @@ async function loadCards () {
     opCards = await requestPlayerDeck(2);
     let handPos = 0;
     hand = [];
-    let tablePos = 0;
     table = [];
     let opPos = 0;
     opponent = [];
     for (let card of myCards) {
         if (card.deck_card_place === 1) {
             handPos++;
-            if (handPos > 3){
+            if (handPos > 2 && handPos <= 4){
                 hand.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                HANDX + CARDSPACE * (handPos - 3), HANDY.lower, card.deck_card_place)); // change the card placement 
+                HANDX + CARDSPACE * (handPos - 2), HANDY.middle, card.deck_card_place));
+            } else if (handPos > 4) {
+                hand.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                HANDX + CARDSPACE * (handPos - 4), HANDY.lower, card.deck_card_place));
             } else {
                 hand.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 HANDX + CARDSPACE * handPos, HANDY.upper, card.deck_card_place));
             }
         } else if (card.deck_card_place != 1 && card.deck_card_place != 8) {
-            table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
-            TABLEX + CARDSPACE * tablePos, TABLEY, card.deck_card_place));
-            tablePos++;
+            if (table.length <= 3) {
+                if (card.deck_card_place === 2) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.one.x, TABLE.one.y, card.deck_card_place));
+                } else if (card.deck_card_place === 3) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.two.x, TABLE.two.y, card.deck_card_place));
+                } else if (card.deck_card_place === 4) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.three.x, TABLE.three.y, card.deck_card_place));
+                } else if (card.deck_card_place === 5) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.four.x, TABLE.four.y, card.deck_card_place));
+                } else if (card.deck_card_place === 6) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.five.x, TABLE.five.y, card.deck_card_place));
+                } else if (card.deck_card_place === 7) {
+                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    TABLE.six.x, TABLE.six.y, card.deck_card_place));
+                } 
+            }
         }
+    }
+    for (let card of opCards) {
+        
     }
 }
     
@@ -69,8 +116,10 @@ async function draw() {
     for (let card of table){
         card.draw();
     }
+    text(table.length, 100, 100)
 }
 
 async function PlaceCard (pId, cId, plcId) {
     
 }
+

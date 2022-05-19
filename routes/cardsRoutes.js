@@ -34,7 +34,7 @@ router.post('/decks/drops', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
-router.post('/actions/:pId/:cId/:plcId', async function(req, res, next) {
+router.post('/actions/player/:pId/card/:cId/place/:plcId', async function(req, res, next) {
     let pId = req.params.pId;
     let cId = req.params.cId;
     let plcId = req.params.plcId;

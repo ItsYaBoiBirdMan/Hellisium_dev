@@ -29,7 +29,6 @@ class Card {
             stroke(0, 0, 0);
         }
 
-        if (this.place === 1){
         rect(this.x, this.y, CWIDTH, CHEIGHT, 2, 2, 2, 2);
         fill(0, 0, 0);
         stroke(0, 0, 0);
@@ -39,7 +38,6 @@ class Card {
         textAlign(LEFT, CENTER);
         text("HP: " + this.hp, this.x + 55, this.y + STATHEIGHT);
         text("ATK: " + this.atk, this.x + 10, this.y + STATHEIGHT);
-        }
     }
     getId() { return this.id;}
     
