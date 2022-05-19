@@ -7,10 +7,12 @@ var scoreBoard;
 
 const CARDSPACE = 120;
 
+var slots = []
+
 var hand = [];
-const HANDX = 1050;
+const HANDX = 1100;
 const HANDY = {};
-HANDY.upper = 140
+HANDY.upper = 210
 HANDY.middle = HANDY.upper + 155
 HANDY.lower = HANDY.middle + 155
 
@@ -23,8 +25,8 @@ TABLE.four = {}
 TABLE.five = {}
 TABLE.six = {}
 
-TABLE.one.x = 200
-TABLE.one.y = 300
+TABLE.one.x = 250
+TABLE.one.y = 370
 
 TABLE.two.x = TABLE.one.x + CARDSPACE
 TABLE.two.y = TABLE.one.y
@@ -50,20 +52,37 @@ var myCards
 var opCards
 
 async function setup() {
+    noLoop()
     var canvas = createCanvas(width, height);
     canvas.parent('game');
     let myInfo = await requestPlayerInfoById(1)
     let opInfo = await requestPlayerInfoById(2)
     playerId = myInfo.player_id
     loadCards()
+    loadBoard()
+    loop()
+}
+
+async function loadBoard () {
+    for(let i = 0; i < 6; i++){
+        if (i < 3) {
+            slots.push(new Slot(250 + CARDSPACE * i, 370, i + 2))
+        } else {
+            slots.push(new Slot(250 + CARDSPACE * (i - 3), 520, i + 2))
+        }
+        
+    }
 }
 
 async function loadCards () {
     myCards = await requestPlayerDeck(1);
     opCards = await requestPlayerDeck(2);
+    
     let handPos = 0;
     hand = [];
+    
     table = [];
+    
     let opPos = 0;
     opponent = [];
     for (let card of myCards) {
@@ -108,18 +127,43 @@ async function loadCards () {
     }
 }
     
-async function draw() {
+function draw() {
     background(220);
+    for (let slot of slots){
+        slot.draw()
+    }
     for (let card of hand){
         card.draw();
     }
     for (let card of table){
         card.draw();
     }
-    text(table.length, 100, 100)
 }
 
-async function PlaceCard (pId, cId, plcId) {
+async function selectCard(){
     
 }
 
+async function PlaceCard (pId, cId, plcId) {
+    await requestPlaceCardOnSlot(pId, cId, plcId)
+}
+
+function mouseClicked() {
+    let card
+    
+    card = returnSelected(hand);
+    if (card) {
+        card.click(mouseX, mouseY);
+    } else {
+        for (let card of hand){
+            card.click(mouseX, mouseY)
+        } 
+    }
+}
+
+function returnSelected(cardList) {
+    for(let card of cardList) {
+        if (card.isSelected()) return card;
+    }
+    return null;
+}
