@@ -4,7 +4,7 @@ const STATHEIGHT = 60
 
 class Card {
     constructor(id, name, atk, hp, x, y, place) {
-        this.id=id;
+        this.id =id;
         this.name = name;
         this.atk = atk;
         this.hp = hp;
@@ -46,18 +46,10 @@ class Card {
     deselect() {this.selected = false;}
 
     click(x, y) {
-        if (!this.selected) {
-            if ((this.x - (CWIDTH / 2)) <= x && (this.x + (CWIDTH / 2)) >= x &&
-                (this.y - (CHEIGHT / 2)) <= y && (this.y + (CHEIGHT / 2)) >= y) {
-                this.selected = !this.selected;
-                return true;
-            }
-        } else if (this.selected){
-            if ((this.x - (CWIDTH / 2)) <= x && (this.x + (CWIDTH / 2)) >= x &&
-                (this.y - (CHEIGHT / 2)) <= y && (this.y + (CHEIGHT / 2)) >= y) {
-                this.selected = !this.selected;
-                return true;
-            }
+        if ((this.x - CWIDTH / 2) <= x && (this.x + CWIDTH / 2) >= x &&
+            (this.y - CHEIGHT / 2) <= y && (this.y + CHEIGHT / 2) >= y) {
+            this.selected = !this.selected;
+            return true;
         }
         return false;
     }

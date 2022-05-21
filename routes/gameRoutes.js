@@ -15,7 +15,7 @@ router.get('/:gId', async function(req, res, next){
     res.status(result.status).send(result.result);
 });
 
-router.post('/init/:pId/:opId', async function(req, res, next){
+router.post('/init/player/:pId/opponent/:opId', async function(req, res, next){
     let pId = req.params.pId
     let opId = req.params.opId
     console.log("Initialize game with player " + pId + " and opponent " + opId)

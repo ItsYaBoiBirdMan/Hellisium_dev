@@ -34,16 +34,19 @@ router.post('/decks/drops', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
-router.post('/actions/player/:pId/card/:cId/place/:plcId', async function(req, res, next) {
+router.post('/actions/player/:pId', async function(req, res, next) {
     let pId = req.params.pId;
-    let cId = req.params.cId;
-    let plcId = req.params.plcId;
+    let cId = req.body.card;
+    let plcId = req.body.place;
     let action = req.body.action;
     console.log("Player action: "+ action);
     if (action === "placeCard"){
         let result = await cModel.placeCardOnSlot(plcId, cId, pId)
         res.status(result.status).send(result.result);
-    } else
+    } else if (action === "returnHand") {
+        let result = await cModel.returnCardToHand(pId, cId)
+        res.status(result.status).send(result.result)
+    }else
     res.status(400).send({msg:"Invalid action"})
     
 

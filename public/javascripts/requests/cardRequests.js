@@ -80,7 +80,55 @@ async function requestResetDecks() {
 
 async function requestPlaceCardOnSlot (pId, cId, plcId) {
     try {
-        const response = await fetch(`/api/cards/actions/player/${pId}/card/${cId}/place/${plcId}`);
+        console.log({
+            card: cId,
+            place: plcId,
+            action: "placeCard"
+        })
+        const response = await fetch(`/api/cards/actions/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+              card: cId,
+              place: plcId,
+              action: "placeCard"
+          })
+        });
+        if (response.status == 200) {
+           var place = await response.json();
+           return place;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function requestReturnCardToHand (pId, cId) {
+    try {
+        console.log({
+            card: cId,
+            action: "returnHand"
+        })
+        const response = await fetch(`/api/cards/actions/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+              card: cId,
+              action: "returnHand"
+          })
+        });
         if (response.status == 200) {
            var place = await response.json();
            return place;

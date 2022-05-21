@@ -1,7 +1,7 @@
 const width = 1400;
 const height = 600;
 
-var playerId;
+var myInfo;
 var gameover;
 var scoreBoard;
 
@@ -55,13 +55,13 @@ async function setup() {
     noLoop()
     var canvas = createCanvas(width, height);
     canvas.parent('game');
-    let myInfo = await requestPlayerInfoById(1)
-    let opInfo = await requestPlayerInfoById(2)
-    playerId = myInfo.player_id
+    myInfo = await requestPlayerInfoById(1)
     loadCards()
     loadBoard()
     loop()
 }
+
+
 
 async function loadBoard () {
     for(let i = 0; i < 6; i++){
@@ -99,7 +99,7 @@ async function loadCards () {
                 HANDX + CARDSPACE * handPos, HANDY.upper, card.deck_card_place));
             }
         } else if (card.deck_card_place != 1 && card.deck_card_place != 8) {
-            if (table.length <= 3) {
+            
                 if (card.deck_card_place === 2) {
                     table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.one.x, TABLE.one.y, card.deck_card_place));
@@ -119,7 +119,7 @@ async function loadCards () {
                     table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.six.x, TABLE.six.y, card.deck_card_place));
                 } 
-            }
+            
         }
     }
     for (let card of opCards) {
@@ -140,42 +140,52 @@ function draw() {
     }
 }
 
-async function selectCard(){
-    
-}
-
-async function PlaceCard (pId, cId, plcId) {
+async function PlaceCardOnSelectedSlot (pId, cId, plcId) {
     await requestPlaceCardOnSlot(pId, cId, plcId)
 }
 
-function mouseClicked() {
+async function mouseClicked() {
     let card
-    let slot
     
     card = returnSelected(hand);
     if (card) {
         card.click(mouseX, mouseY);
     } else {
         for (let card of hand){
-            card.click(mouseX, mouseY)
+            card.click(mouseX, mouseY);
         } 
     }
-    slot = returnSelected(slots)
-    if (slot) {
-        slot.click(mouseX, mouseY)
-    } else {
+     if (card) {
+    
         for (let slot of slots){
-            slot.click(mouseX, mouseY)
-        } 
+            if (slot.click(mouseX, mouseY)) {
+                card.deselect();
+                placeCard(card, slot);
+            }
+        }
+    } for (let card of table) {
+        if (card.click(mouseX, mouseY)) { //getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
+            card.deselect();
+            returnCard(card)              // I'm in Alentejo while writting this, and it seems to be related to the slow internet here
+        }
     }
+}
+
+async function placeCard(card, slot) {
+    await PlaceCardOnSelectedSlot(1, card.getId(), slot.getId());
+    await loadCards();
+    await loadBoard();
+}
+
+async function returnCard(card){
+    await requestReturnCardToHand(1, card.getId())
+    await loadCards();
+    await loadBoard();
 }
 
 function returnSelected(cardList) {
     for(let card of cardList) {
         if (card.isSelected()) return card;
-    }
-    for (let slot of slots){
-        if (slot.isSelected()) return slot;
     }
     return null;
 }
