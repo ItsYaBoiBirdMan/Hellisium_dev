@@ -23,16 +23,21 @@ router.get('/playerdeck/:pId', async function(req, res, next) {
 });
 
 router.post('/decks', async function(req, res, next) {
-    console.log('Decks created')
-    let result = await cModel.createPlayerDecks();
-res.status(result.status).send(result.result);
+    let pId = req.body.player
+    let opId = req.body.opponent
+    let action = req.body.action
+    if (action === "create"){
+       let result = await cModel.createPlayerDecks(pId, opId);
+       res.status(result.status).send(result.result);
+    } else if (action === "drop"){
+        let result = await cModel.dropDecks(pId, opId)
+        res.status(result.status).send(result.result);
+    } else
+    res.status(400).send({msg:"Invalid action"})
+
 });
 
-router.post('/decks/drops', async function(req, res, next) {
-    console.log('Decks droped')
-    let result = await cModel.dropDecks();
-    res.status(result.status).send(result.result);
-});
+
 
 router.post('/actions/player/:pId', async function(req, res, next) {
     let pId = req.params.pId;
@@ -46,7 +51,7 @@ router.post('/actions/player/:pId', async function(req, res, next) {
     } else if (action === "returnHand") {
         let result = await cModel.returnCardToHand(pId, cId)
         res.status(result.status).send(result.result)
-    }else
+    } else
     res.status(400).send({msg:"Invalid action"})
     
 

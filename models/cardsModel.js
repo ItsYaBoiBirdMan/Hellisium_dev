@@ -69,36 +69,36 @@ module.exports.attackCardById = async function (id) {
   }
 }
 
-module.exports.createPlayerDecks = async function () {
+module.exports.createPlayerDecks = async function (pId, opId) {
   try {
 
     let sql = `insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 1, 1, 8);
+               values(default, $1, 1, 1, 8);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 2, 1, 6);
+               values(default, $1, 2, 1, 6);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 3, 1, 4);
+               values(default, $1, 3, 1, 4);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 4, 1, 15);
+               values(default, $1, 4, 1, 15);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 5, 1, 12);
+               values(default, $1, 5, 1, 12);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 1, 6, 1, 3);
+               values(default, $1, 6, 1, 3);
                
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 1, 1, 8);
+               values(default, $2, 1, 1, 8);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 2, 1, 6);
+               values(default, $2, 2, 1, 6);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 3, 1, 4);
+               values(default, $2, 3, 1, 4);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 4, 1, 15);
+               values(default, $2, 4, 1, 15);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 5, 1, 12);
+               values(default, $2, 5, 1, 12);
                insert into deck(deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp)
-               values(default, 2, 6, 1, 3)`;
+               values(default, $2, 6, 1, 3)`;
 
-    let result = await pool.query(sql);
+    let result = await pool.query(sql, [pId, opId]);
     let deck = result.rows;
     return { status: 200, result: deck };
   } catch (err) {
@@ -107,11 +107,12 @@ module.exports.createPlayerDecks = async function () {
   }
 }
 
-module.exports.dropDecks = async function () {
+module.exports.dropDecks = async function (pId, gId) {
   try {
-    let sql = `delete from deck;
+    let sql = `delete from deck
+               where deck_player_id = $1 or deck_player_id = $2;
                ALTER SEQUENCE deck_deck_id_seq RESTART WITH 1`;
-    let result = await pool.query(sql)
+    let result = await pool.query(sql, [pId, gId])
     let drops = result.rows;
     return { status: 200, result: drops };
 

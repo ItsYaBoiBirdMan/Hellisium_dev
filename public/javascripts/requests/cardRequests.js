@@ -46,12 +46,29 @@ async function requestPlayerDeck(pId) {
     }
 }
 
-async function requestCreateDecks() {
+async function requestDeckCreation (pId, opId) {
     try {
-        const response = await fetch(`/api/cards/decks`);
+        console.log({
+            player: pId,
+            opponent: opId,
+            action: "create"
+        })
+        const response = await fetch(`/api/cards/decks`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+              player: pId,
+              opponent: opId,
+              action: "create"
+          })
+        });
         if (response.status == 200) {
-           var decks = await response.json();
-           return decks;
+           var create = await response.json();
+           return create;
         } else {
             // Treat errors like 404 here
             console.log(response);
@@ -62,12 +79,29 @@ async function requestCreateDecks() {
     }
 }
 
-async function requestResetDecks() {
+async function requestDeckDrops (pId, opId) {
     try {
-        const response = await fetch(`/api/cards/decks/drops`);
+        console.log({
+            player: pId,
+            opponent: opId,
+            action: "drop"
+        })
+        const response = await fetch(`/api/cards/decks`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+              player: pId,
+              opponent: opId,
+              action: "drop"
+          })
+        });
         if (response.status == 200) {
-           var drop = await response.json();
-           return drop;
+           var create = await response.json();
+           return create;
         } else {
             // Treat errors like 404 here
             console.log(response);
