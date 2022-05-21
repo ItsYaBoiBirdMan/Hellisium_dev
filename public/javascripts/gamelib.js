@@ -1,18 +1,22 @@
 const width = 1400;
-const height = 600;
+const height = 700;
 
 var myInfo;
-var gameover;
-var scoreBoard;
+var opInfo;
+var gameInfo;
+
+var myHp
+var opHp
 
 const CARDSPACE = 120;
 
-var slots = []
+var mySlots = []
+var opSlots = []
 
 var hand = [];
 const HANDX = 1100;
 const HANDY = {};
-HANDY.upper = 210
+HANDY.upper = 300
 HANDY.middle = HANDY.upper + 155
 HANDY.lower = HANDY.middle + 155
 
@@ -26,7 +30,7 @@ TABLE.five = {}
 TABLE.six = {}
 
 TABLE.one.x = 250
-TABLE.one.y = 370
+TABLE.one.y = 460
 
 TABLE.two.x = TABLE.one.x + CARDSPACE
 TABLE.two.y = TABLE.one.y
@@ -45,8 +49,7 @@ TABLE.six.y = TABLE.four.y
 
 var opponent = [];
 
-const OPX = 400;
-const OPY = 20;
+const OPSPACE = 370
 
 var myCards
 var opCards
@@ -55,20 +58,32 @@ async function setup() {
     noLoop()
     var canvas = createCanvas(width, height);
     canvas.parent('game');
-    myInfo = await requestPlayerInfoById(1)
     loadCards()
     loadBoard()
+    
     loop()
+    loadInfo()
 }
 
+async function loadInfo() {
+    myInfo = await requestPlayerInfoById(1)
+    opInfo = await requestPlayerInfoById(2)
+    gameInfo = await requestGameInfoById(1)
 
+    myHp = new PlayerHpDisplay(myInfo.player_id, myInfo.player_hp, 100, 400);
+    opHp = new PlayerHpDisplay(opInfo.player_id, opInfo.player_hp, 100, 400)
+
+}
+    
 
 async function loadBoard () {
     for(let i = 0; i < 6; i++){
         if (i < 3) {
-            slots.push(new Slot(250 + CARDSPACE * i, 370, i + 2))
+            mySlots.push(new Slot(250 + CARDSPACE * i, 460, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * i, 460 - OPSPACE, i + 2))
         } else {
-            slots.push(new Slot(250 + CARDSPACE * (i - 3), 520, i + 2))
+            mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 610, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 610 - OPSPACE, i + 2))
         }
         
     }
@@ -123,28 +138,54 @@ async function loadCards () {
         }
     }
     for (let card of opCards) {
-        
+        if (card.deck_card_place != 1 && card.deck_card_place != 8) {
+            if (card.deck_card_place === 2) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 3) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 4) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 5) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 6) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 7) {
+                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place));
+            } 
+        }
     }
 }
     
 function draw() {
     background(220);
-    for (let slot of slots){
+    for (let slot of mySlots){
         slot.draw()
     }
+
+    for (let slot of opSlots){
+        slot.draw()
+    }
+    
     for (let card of hand){
         card.draw();
     }
     for (let card of table){
         card.draw();
     }
+    //myHp.draw();
 }
 
 async function PlaceCardOnSelectedSlot (pId, cId, plcId) {
     await requestPlaceCardOnSlot(pId, cId, plcId)
 }
 
-async function mouseClicked() {
+async function mousePressed() {
     let card
     
     card = returnSelected(hand);
@@ -157,16 +198,16 @@ async function mouseClicked() {
     }
      if (card) {
     
-        for (let slot of slots){
-            if (slot.click(mouseX, mouseY)) {
-                card.deselect();
-                placeCard(card, slot);
+        for (let slot of mySlots){
+            if (slot.click(mouseX, mouseY)) {//getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
+                    card.deselect();
+                    placeCard(card, slot);
             }
         }
     } for (let card of table) {
-        if (card.click(mouseX, mouseY)) { //getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
+        if (card.click(mouseX, mouseY)) { 
             card.deselect();
-            returnCard(card)              // I'm in Alentejo while writting this, and it seems to be related to the slow internet here
+            returnCard(card)              
         }
     }
 }

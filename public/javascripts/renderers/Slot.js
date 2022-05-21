@@ -7,7 +7,6 @@ class Slot{
         this.y = y
         this.placeId = placeId
         this.selected = false
-        this.occupied = false
 
     }
     draw() {
@@ -28,8 +27,6 @@ class Slot{
     isSelected() { return this.selected; }
     deselect() {this.selected = false;}
 
-    enable() { this.enabled = true }
-    disable() { this.enabled = false }
 
     click(x, y) {
 
@@ -42,9 +39,3 @@ class Slot{
         }     return false; 
     }
 }
-        
-    
-/*If I select a slot, I can't deselect it or select a card
-If I select a card first, I can select and deselect a slot
-Most likely a problem on the logic
-Need to ask the professor */

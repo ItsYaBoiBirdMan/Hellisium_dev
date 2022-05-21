@@ -127,7 +127,7 @@ module.exports.placeCardOnSlot = async function (placeId, cardId, pId) {
     let res1
     let res2
     res1 = await this.checkIfSlotIsOccupied(pId, placeId)
-    //res2 = await this.checkIfThreeCardsArePlaced(pId)
+    //res2 = await this.checkIfCardIsOnTable(pId)
      
     if(res1.status != 200){
       return res1
@@ -137,7 +137,7 @@ module.exports.placeCardOnSlot = async function (placeId, cardId, pId) {
       
       let result = await pool.query(sql, [placeId, cardId, pId])
       let place = result.rows;
-      return { status: 200, result: place };
+      return { status: 200, result: place }
 
     }
 
@@ -176,7 +176,7 @@ module.exports.checkIfCardIsOnTable = async function(pId) {
       let tableCard = result.rows
       return { status: 200, result: tableCard }
     } else {
-      return { status: 400, result: { msg:"There are no cards now the table" } }
+      return { status: 400, result: { msg:"There are no cards on the table" } }
     }
   } catch (err) {
     console.log (err)
@@ -199,26 +199,6 @@ module.exports.returnCardToHand = async function(pId, cId) {
       return { status: 200, result: returnToHand }
     }
 
-  } catch (err) {
-    console.log(err)
-    return {status: 500, result: err}
-  }
-}
-
-module.exports.checkIfThreeCardsArePlaced = async function (pId) { //this is very wonky
-  try {
-    let sql = `select deck_card_place
-               from deck
-               where deck_player_id = $1
-               and deck_card_place != 1
-               and deck_card_place != 8`
-    let result = await pool.query(sql, [pId])
-    if (result.rows.length < 3) {
-      let numCard = result.rows
-      return {status: 200, result: numCard}
-    } else {
-      return { status: 400, result: { msg:"There are already 3 cards on the table" } }
-    }
   } catch (err) {
     console.log(err)
     return {status: 500, result: err}
