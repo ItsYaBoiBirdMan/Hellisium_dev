@@ -52,17 +52,24 @@ module.exports.getCardById = async function (id) {
   }
 }
 
-module.exports.attackCardById = async function (id) {
+module.exports.attackCardById = async function (atkValue, cId, opId) {
   try {
-    let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - 1
-               where card_id = $1`;
-    let result = await pool.query(sql, [id]);
-    if (result.rows.length > 0) {
-      let damage = result.rows[0];
-      return { status: 200, result: damage };
+    let targetOnTable = await this.checkIfCardIsOnTable(opId)
+    if (targetOnTable.status != 200){
+      return {status: 400, result: {msg: "That card is not on the table"}}
     } else {
-      return { status: 404, result: { msg: "No card with that id" } };
+      let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
+               where deck_card_id = $2
+               and deck_player_id = $3`;
+      let result = await pool.query(sql, [atkValue, cId, opId]);
+      if (result.rows.length > 0) {
+        let damage = result.rows;
+        return { status: 200, result: damage };
+      } else {
+        return { status: 404, result: { msg: "No card with that id" } };
+      }
     }
+      
   } catch (err) {
     console.log(err);
     return { status: 500, result: err };
@@ -177,7 +184,7 @@ module.exports.checkIfCardIsOnTable = async function(pId) {
       let tableCard = result.rows
       return { status: 200, result: tableCard }
     } else {
-      return { status: 400, result: { msg:"There are no cards on the table" } }
+      return { status: 404, result: { msg:"There are no cards on the table" } }
     }
   } catch (err) {
     console.log (err)
@@ -201,6 +208,20 @@ module.exports.returnCardToHand = async function(pId, cId) {
     }
 
   } catch (err) {
+    console.log(err)
+    return {status: 500, result: err}
+  }
+}
+
+module.exports.killCard = async function (cId, pId){
+  try{
+    let sql = `update deck set deck_card_place = 8
+               where deck_card_id = $1
+               and deck_player_id = $2`
+    let result = await pool.query(sql, [cId, pId])
+    let killCard = result.rows
+    return { status: 200, result: killCard}
+  } catch (err){
     console.log(err)
     return {status: 500, result: err}
   }

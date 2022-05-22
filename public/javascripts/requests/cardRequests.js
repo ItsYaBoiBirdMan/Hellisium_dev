@@ -175,3 +175,38 @@ async function requestReturnCardToHand (pId, cId) {
         console.log(err);
     }
 }
+
+async function requestAttackCard (pId, atkValue, cId, opId) {
+    try {
+        console.log({
+            atk: atkValue,
+            card: cId,
+            opponent: opId,
+            action: "attackCard"
+        })
+        const response = await fetch(`/api/cards/actions/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            atk: atkValue,
+            card: cId,
+            opponent: opId,
+            action: "attackCard"
+          })
+        });
+        if (response.status == 200) {
+           var damage = await response.json();
+           return damage;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

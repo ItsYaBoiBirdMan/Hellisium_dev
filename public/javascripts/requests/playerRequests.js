@@ -1,6 +1,6 @@
 async function requestPlayerInfo() {
     try {
-        const response = await fetch(`/api/player`);
+        const response = await fetch(`/api/players`);
         if (response.status == 200) {
            var players = await response.json();
            return players;

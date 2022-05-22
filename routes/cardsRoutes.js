@@ -46,16 +46,22 @@ router.post('/actions/player/:pId', async function(req, res, next) {
     let action = req.body.action;
     console.log("Player action: "+ action);
     if (action === "placeCard"){
+        console.log("Placed card with id " + cId + " on slot " + plcId)
         let result = await cModel.placeCardOnSlot(plcId, cId, pId)
         res.status(result.status).send(result.result);
     } else if (action === "returnHand") {
+        console.log("Returned card with id " + cId + " to your hand")
         let result = await cModel.returnCardToHand(pId, cId)
+        res.status(result.status).send(result.result)
+    } else if (action === "attackCard"){
+        let atk = req.body.atk
+        let opId = req.body.opponent
+        console.log("Dealt " + atk + " damage to opponent card with id " + cId)
+        let result = await cModel.attackCardById(atk, cId, opId)
         res.status(result.status).send(result.result)
     } else
     res.status(400).send({msg:"Invalid action"})
     
 
 });
-
-
 module.exports = router;

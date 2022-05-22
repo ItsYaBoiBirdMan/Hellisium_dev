@@ -60,19 +60,16 @@ async function setup() {
     canvas.parent('game');
     loadCards()
     loadBoard()
-    
-    loop()
     loadInfo()
+    loadInfo()
+    loop()
+    
 }
 
 async function loadInfo() {
     myInfo = await requestPlayerInfoById(1)
     opInfo = await requestPlayerInfoById(2)
     gameInfo = await requestGameInfoById(1)
-
-    myHp = new PlayerHpDisplay(myInfo.player_id, myInfo.player_hp, 100, 400);
-    opHp = new PlayerHpDisplay(opInfo.player_id, opInfo.player_hp, 100, 400)
-
 }
     
 
@@ -97,8 +94,7 @@ async function loadCards () {
     hand = [];
     
     table = [];
-    
-    let opPos = 0;
+
     opponent = [];
     for (let card of myCards) {
         if (card.deck_card_place === 1) {
@@ -178,7 +174,6 @@ function draw() {
     for (let card of table){
         card.draw();
     }
-    //myHp.draw();
 }
 
 async function PlaceCardOnSelectedSlot (pId, cId, plcId) {
