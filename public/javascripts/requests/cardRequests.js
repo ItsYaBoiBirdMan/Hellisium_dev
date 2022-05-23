@@ -149,7 +149,7 @@ async function requestReturnCardToHand (pId, cId) {
     try {
         console.log({
             card: cId,
-            action: "returnHand"
+            action: "returnCard"
         })
         const response = await fetch(`/api/cards/actions/player/${pId}`, 
         {
@@ -160,7 +160,7 @@ async function requestReturnCardToHand (pId, cId) {
           method: "POST",
           body: JSON.stringify({
               card: cId,
-              action: "returnHand"
+              action: "returnCard"
           })
         });
         if (response.status == 200) {

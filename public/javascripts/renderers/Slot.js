@@ -36,6 +36,6 @@ class Slot{
             return true;
         
     
-        }     return false; 
+        }return false; 
     }
 }

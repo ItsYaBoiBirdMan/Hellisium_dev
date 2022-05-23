@@ -51,7 +51,7 @@ router.post('/actions/player/:pId', async function(req, res, next) {
         Placed card with id ` + cId + ` on slot ` + plcId)
         let result = await cModel.placeCardOnSlot(plcId, cId, pId)
         res.status(result.status).send(result.result);
-    } else if (action === "returnHand") {
+    } else if (action === "returnCard") {
         console.log(`
         Returned card with id ` + cId + ` to your hand`)
         let result = await cModel.returnCardToHand(pId, cId)
@@ -66,7 +66,7 @@ router.post('/actions/player/:pId', async function(req, res, next) {
     } else if (action === "killCard"){
         console.log(`
         Card with id ` + cId + ` from player with id ` + pId + ` was killed`)
-        let result = await cModel.killCard(cId, pId)
+        let result = await cModel.removeCardBecauseDeath(cId, pId)
         res.status(result.status).send(result.result)
     }else
     res.status(400).send({msg:"Invalid action"})

@@ -213,23 +213,38 @@ module.exports.returnCardToHand = async function(pId, cId) {
   }
 }
 
-module.exports.killCard = async function (cId, pId){
+module.exports.removeCardBecauseDeath = async function (cId, pId){
   try{
+    let res1 = await this.checkIfCardIsDead(pId, cId)
+    if(res1.status != 200) {
+      return { status: 400, result: { msg: "That card is not dead" } }
+    }
+
     let sql = `update deck set deck_card_place = 8
                where deck_card_id = $1
                and deck_player_id = $2`
     let result = await pool.query(sql, [cId, pId])
     let killCard = result.rows
-    return { status: 200, result: killCard}
+    return { status: 200, result: killCard }
   } catch (err){
     console.log(err)
     return {status: 500, result: err}
   }
 }
 
-module.exports.checkIfCardIsDead = async function (){
+module.exports.checkIfCardIsDead = async function (pId, cId){
   try{
-    let sql = ``
+    let sql = `select * from deck
+               where deck_current_hp = 0
+               and deck_player_id = $1
+               and deck_card_id = $2`
+    let result = await pool.query(sql, [pId, cId])
+    if(result.rows.length > 0){
+      let deadCard = result.rows
+      return { status: 200, result: deadCard }
+    } else {
+      return { status: 404, result: { msg:"That player's card is not dead" } }
+    }
   } catch (err){
     console.log(err)
     return {status: 500, result: err}
