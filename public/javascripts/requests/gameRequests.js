@@ -63,7 +63,7 @@ async function initializeGame (pId, opId) {
     }
 }
 
-async function initializeGame (gId) {
+async function terminateGame (gId) {
     try {
         console.log({
             game: gId,
@@ -84,6 +84,22 @@ async function initializeGame (gId) {
         if (response.status == 200) {
            var end = await response.json();
            return end;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function requestGameInfoByPlayerId (pId) {
+    try {
+        const response = await fetch(`/api/game/playergame/${pId}`);
+        if (response.status == 200) {
+           var game = await response.json();
+           return game;
         } else {
             // Treat errors like 404 here
             console.log(response);

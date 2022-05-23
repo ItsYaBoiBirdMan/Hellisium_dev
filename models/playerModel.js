@@ -34,3 +34,36 @@ module.exports.getPlayerInfoById = async function (id) {
       return { status: 500, result: err };
     }    
 }
+
+module.exports.login = async function (username, password) {
+    try {
+        let sql = `Select player_name, player_id from player 
+                   where player_name = $1 and player_password = $2`;
+        let result = await pool.query(sql, [username, password]);
+        if (result.rows.length > 0) {
+            let player = result.rows[0];
+            return { status: 200, result: player };
+        } else {
+            return { status: 401, result: { msg: "Wrong username/password" } };
+        }
+    } catch (err) {
+        console.log(err);
+        return { status: 500, result: err };
+    }
+}
+
+
+module.exports.getOpponent = async function (pId, opId) {
+    try {
+        let sqlCheckOp = `select * from game 
+                          where game_player_id = $1
+                          or game_player_id = $2`;
+        let resCheckOp = await pool.query(sqlCheckOp, [pId, opId]);
+        if (resCheckOp.rows.length == 0)  
+            return { status: 400, result: { msg: "That match is missing an opponent" } };
+        return { status:200, result:resCheckOp.rows[0] };
+    } catch (err) {
+        console.log(err);
+        return { status: 500, result: err };
+    }
+}

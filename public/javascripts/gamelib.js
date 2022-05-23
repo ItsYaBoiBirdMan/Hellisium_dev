@@ -4,6 +4,7 @@ const height = 700;
 var myInfo;
 var opInfo;
 var gameInfo;
+var playerId = 1
 
 var myHp
 var opHp
@@ -208,13 +209,13 @@ async function mousePressed() {
 }
 
 async function placeCard(card, slot) {
-    await PlaceCardOnSelectedSlot(1, card.getId(), slot.getId());
+    await PlaceCardOnSelectedSlot(playerId, card.getId(), slot.getId());
     await loadCards();
     await loadBoard();
 }
 
 async function returnCard(card){
-    await requestReturnCardToHand(1, card.getId())
+    await requestReturnCardToHand(playerId, card.getId())
     await loadCards();
     await loadBoard();
 }

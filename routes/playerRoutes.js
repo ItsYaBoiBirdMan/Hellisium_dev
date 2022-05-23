@@ -14,4 +14,13 @@ router.get('/:id', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
+router.post('/login', async function(req, res, next) {
+    console.log("Login player ");
+    let username = req.body.username;
+    let password = req.body.password;
+    let result = await pModel.login(username,password);
+    res.status(result.status).send(result.result);
+  });
+  
+
 module.exports = router;

@@ -2,7 +2,8 @@ var pool = require('./connection.js');
 
 module.exports.getAllGamesInfo = async function () { 
     try {
-        let sql = `select * from game`;
+        let sql = `select * from game, state
+                   where game_state = state_id`;
         let result = await pool.query(sql);
         if (result.rows.length > 0) {
             let game = result.rows;
@@ -18,8 +19,9 @@ module.exports.getAllGamesInfo = async function () {
 
 module.exports.getGameInfoById = async function (gId) {
     try {
-        let sql = `select * from game
-                   where game_id = $1`;
+        let sql = `select * from game, state
+                   where game_state = state_id
+                   and game_id = $1`;
         let result = await pool.query(sql, [gId]);
         if (result.rows.length > 0) {
             let game = result.rows;
@@ -62,3 +64,7 @@ module.exports.endGame = async function (gId) {
         return { status: 500, result: err };
       }
 };
+
+module.exports.changeGameState = async function(){
+  
+}

@@ -17,7 +17,7 @@ class Card {
         if (this.selected) {
             fill(100, 200, 100);
         } else {
-            fill(100, 100, 100);
+            fill(200, 200, 800);
         }
         strokeWeight(3);
         if (this.selected) {
@@ -37,9 +37,11 @@ class Card {
         text("ATK: " + this.atk, this.x - 40, this.y + STATHEIGHT);
     }
     getId() { return this.id;}
-    
+
+    getAtk() { return this.atk; }
+
     getHp() { return this.hp; }
-    setHp(hp) { this.hp = hp }
+    setHp(hp) { this.hp = hp  }
     
     
     isSelected() { return this.selected; }

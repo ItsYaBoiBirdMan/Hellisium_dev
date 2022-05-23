@@ -226,3 +226,12 @@ module.exports.killCard = async function (cId, pId){
     return {status: 500, result: err}
   }
 }
+
+module.exports.checkIfCardIsDead = async function (){
+  try{
+    let sql = ``
+  } catch (err){
+    console.log(err)
+    return {status: 500, result: err}
+  }
+}
