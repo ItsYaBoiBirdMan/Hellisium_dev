@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var cardsRouter = require('./routes/cardsRoutes');
 var playerRouter = require('./routes/playerRoutes');
 var gameRouter = require('./routes/gameRoutes');
+var roomsRouter = require('./routes/roomsRoutes');
 var app = express();
 
 app.use(logger('dev'));
@@ -21,6 +22,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/cards',cardsRouter);
 app.use('/api/players', playerRouter);
-app.use('/api/game', gameRouter)
-app.use('/api/rooms')
+app.use('/api/game', gameRouter);
+app.use('/api/rooms', roomsRouter);
 module.exports = app;

@@ -4,8 +4,6 @@ const height = 700;
 var myInfo;
 var opInfo;
 var gameInfo;
-var playerId = 1
-var opponentId = 2
 
 var myHp
 var opHp
@@ -65,13 +63,13 @@ async function setup() {
     loadBoard()
     loadInfo()
     loadInfo()
-    loop()
+    loop()  
     
 }
 
 async function loadInfo() {
-    myInfo = await requestPlayerInfoById(1)
-    opInfo = await requestPlayerInfoById(2)
+    myInfo = await requestPlayerInfoById(playerId)
+    opInfo = await requestPlayerInfoById(opponentId)
     gameInfo = await requestGameInfoById(1)
 }
     
@@ -90,8 +88,8 @@ async function loadBoard () {
 }
 
 async function loadCards () {
-    myCards = await requestPlayerDeck(1);
-    opCards = await requestPlayerDeck(2);
+    myCards = await requestPlayerDeck(playerId);
+    opCards = await requestPlayerDeck(opponentId);
     
     let handPos = 0;
     hand = [];

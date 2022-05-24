@@ -35,7 +35,7 @@ module.exports.getGameInfoById = async function (gId) {
     }    
 };
 
-module.exports.initGame = async function (pId, opId) {
+/*module.exports.initGame = async function (pId, opId) {
     try {
 
         let sql = `insert into game (game_id, game_turn_num, game_turn_first, game_player_ready, game_state, game_player_id)
@@ -65,7 +65,7 @@ module.exports.endGame = async function (gId) {
         console.log(err);
         return { status: 500, result: err };
       }
-};
+};*/
 
 module.exports.changeGameState = async function(){
   
