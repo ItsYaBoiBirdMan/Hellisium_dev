@@ -35,22 +35,22 @@ module.exports.getPlayerInfoById = async function (id) {
     }    
 }
 
-module.exports.login = async function (username, password) {
+module.exports.loginCheck = async function (name,password) {
     try {
-        let sql = `Select player_name, player_id from player 
-                   where player_name = $1 and player_password = $2`;
-        let result = await pool.query(sql, [username, password]);
-        if (result.rows.length > 0) {
-            let player = result.rows[0];
-            return { status: 200, result: player };
-        } else {
-            return { status: 401, result: { msg: "Wrong username/password" } };
-        }
+      let sql = `Select player_id, player_name 
+                 from player 
+                 where player_name = $1 and player_password = $2`;
+      let result = await pool.query(sql,[name,password]);
+      if (result.rows.length == 0) {
+          return { status: 401, result: {msg: "Wrong password or username."}}
+      }
+      let player_id = result.rows[0].player_id;
+      return { status: 200, result: {msg: "Login correct", userId : player_id} };
     } catch (err) {
-        console.log(err);
-        return { status: 500, result: err };
+      console.log(err);
+      return { status: 500, result: err };
     }
-}
+  }
 
 
 module.exports.getOpponent = async function (pId, opId) {

@@ -38,8 +38,10 @@ module.exports.getGameInfoById = async function (gId) {
 module.exports.initGame = async function (pId, opId) {
     try {
 
-        let sql = `insert into game (game_id, game_turn_num, game_turn_first, game_p1_ready, game_p2_ready, game_state, game_p1_id, game_p2_id)
-                   values(default, 1, null, false, false, 1, $1, $2);`;
+        let sql = `insert into game (game_id, game_turn_num, game_turn_first, game_player_ready, game_state, game_player_id)
+                   values(default, 1, null, false, 1, $1);
+                   insert into game (game_id, game_turn_num, game_turn_first, game_player_ready, game_state, game_player_id)
+                   values(default, 1, null, false, 1, $2)`;
     
         let result = await pool.query(sql, [pId, opId]);
         let init = result.rows;

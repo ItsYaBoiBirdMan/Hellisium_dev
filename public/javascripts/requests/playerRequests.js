@@ -30,23 +30,21 @@ async function requestPlayerInfoById(pId) {
     }
 }
 
-async function requestLogin(user, pass) {
+async function requestLogin(name, password) {
     try {
-        const response = await fetch(`/api/players/login`, 
+        const response = await fetch(`/api/players/login`,
         {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-          method: "POST",
-          body: JSON.stringify({
-              username: user,
-              password: pass
-          })
+                "Content-Type": "application/json"
+              },
+            body: JSON.stringify({
+                name: name, 
+                password: password
+            }) 
         });
-        var result = await response.json();
-        // We are not checking for errors (considering the GUI is only allowing correct choices)
-        return result;
+        var  result= await response.json();
+        return {logged: response.status == 200 , result: result };
     } catch (err) {
         // Treat 500 errors here
         console.log(err);

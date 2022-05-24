@@ -5,6 +5,7 @@ var myInfo;
 var opInfo;
 var gameInfo;
 var playerId = 1
+var opponentId = 2
 
 var myHp
 var opHp
@@ -21,7 +22,8 @@ HANDY.upper = 300
 HANDY.middle = HANDY.upper + 155
 HANDY.lower = HANDY.middle + 155
 
-var table = [];
+var mytable = [];
+var optable = []
 const TABLE = {}
 TABLE.one = {}
 TABLE.two = {}
@@ -94,7 +96,8 @@ async function loadCards () {
     let handPos = 0;
     hand = [];
     
-    table = [];
+    mytable = [];
+    optable = []
 
     opponent = [];
     for (let card of myCards) {
@@ -113,22 +116,22 @@ async function loadCards () {
         } else if (card.deck_card_place != 1 && card.deck_card_place != 8) {
             
                 if (card.deck_card_place === 2) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.one.x, TABLE.one.y, card.deck_card_place));
                 } else if (card.deck_card_place === 3) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.two.x, TABLE.two.y, card.deck_card_place));
                 } else if (card.deck_card_place === 4) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.three.x, TABLE.three.y, card.deck_card_place));
                 } else if (card.deck_card_place === 5) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.four.x, TABLE.four.y, card.deck_card_place));
                 } else if (card.deck_card_place === 6) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.five.x, TABLE.five.y, card.deck_card_place));
                 } else if (card.deck_card_place === 7) {
-                    table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                    mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.six.x, TABLE.six.y, card.deck_card_place));
                 } 
             
@@ -137,22 +140,22 @@ async function loadCards () {
     for (let card of opCards) {
         if (card.deck_card_place != 1 && card.deck_card_place != 8) {
             if (card.deck_card_place === 2) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 3) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 4) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 5) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 6) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 7) {
-                table.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                optable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place));
             } 
         }
@@ -172,8 +175,11 @@ function draw() {
     for (let card of hand){
         card.draw();
     }
-    for (let card of table){
+    for (let card of mytable){
         card.draw();
+    }
+    for (let card of optable){
+        card.draw()
     }
 }
 
@@ -200,10 +206,14 @@ async function mousePressed() {
                     placeCard(card, slot);
             }
         }
-    } for (let card of table) {
+    } for (let card of mytable) {
         if (card.click(mouseX, mouseY)) { 
             card.deselect();
             returnCard(card)              
+        }
+    } for (let card of optable) {
+        if (card.click(mouseX, mouseY)){
+            attackOpponentCard(card, opponentId)
         }
     }
 }
@@ -213,6 +223,8 @@ async function placeCard(card, slot) {
     await loadCards();
     await loadBoard();
 }
+
+
 
 async function returnCard(card){
     await requestReturnCardToHand(playerId, card.getId())
@@ -225,4 +237,10 @@ function returnSelected(cardList) {
         if (card.isSelected()) return card;
     }
     return null;
+}
+
+async function attackOpponentCard(card, opId){
+    await requestAttackCard(opponentId, card.getAtk(), card.getId(), opId)
+    await loadBoard()
+    await loadCards()
 }

@@ -14,7 +14,7 @@ var app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("Arbitrator"));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -22,4 +22,5 @@ app.use('/users', usersRouter);
 app.use('/api/cards',cardsRouter);
 app.use('/api/players', playerRouter);
 app.use('/api/game', gameRouter)
+app.use('/api/rooms')
 module.exports = app;
