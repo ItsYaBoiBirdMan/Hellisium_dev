@@ -41,7 +41,7 @@ class Card {
     getAtk() { return this.atk; }
 
     getHp() { return this.hp; }
-    setHp(hp) { this.hp = hp  }
+    setHp(hp) { this.hp = hp;  }
     
     
     isSelected() { return this.selected; }

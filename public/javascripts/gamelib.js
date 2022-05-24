@@ -55,6 +55,7 @@ const OPSPACE = 370
 var myCards
 var opCards
 
+
 async function setup() {
     noLoop()
     var canvas = createCanvas(width, height);
@@ -187,7 +188,7 @@ async function PlaceCardOnSelectedSlot (pId, cId, plcId) {
 
 async function mousePressed() {
     let card
-    
+
     card = returnSelected(hand);
     if (card) {
         card.click(mouseX, mouseY);
@@ -207,6 +208,7 @@ async function mousePressed() {
     } for (let card of mytable) {
         if (card.click(mouseX, mouseY)) { 
             card.deselect();
+            console.log(card.getAtk())
             returnCard(card)              
         }
     } for (let card of optable) {
@@ -225,7 +227,9 @@ async function placeCard(card, slot) {
 
 
 async function returnCard(card){
-    await requestReturnCardToHand(playerId, card.getId())
+    for (card of mytable){
+        await requestReturnCardToHand(playerId, card.getId())
+    }
     await loadCards();
     await loadBoard();
 }
