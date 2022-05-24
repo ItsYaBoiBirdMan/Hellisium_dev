@@ -26,4 +26,10 @@ router.post('/login', async function(req, res, next) {
     } else  res.status(result.status).send(result.result); 
 });
 
+router.post('/logout', auth.checkAuthentication, async function(req, res, next) {
+    console.log("Logout")
+    auth.logout(res);    
+    res.status(200).send({msg:"User logged out"});
+});
+
 module.exports = router;
