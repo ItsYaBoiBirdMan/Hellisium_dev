@@ -208,7 +208,6 @@ async function mousePressed() {
     } for (let card of mytable) {
         if (card.click(mouseX, mouseY)) { 
             card.deselect();
-            console.log(card.getAtk())
             returnCard(card)              
         }
     } for (let card of optable) {
@@ -227,9 +226,7 @@ async function placeCard(card, slot) {
 
 
 async function returnCard(card){
-    for (card of mytable){
-        await requestReturnCardToHand(playerId, card.getId())
-    }
+    await requestReturnCardToHand(playerId, card.getId())
     await loadCards();
     await loadBoard();
 }
