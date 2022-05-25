@@ -199,7 +199,9 @@ function draw() {
 
 async function mousePressed() {
     let card
+    let tableCard
 
+    tableCard = returnSelected(mytable)
     card = returnSelected(hand);
     if (cardsPlaceble){
         if (card) {
@@ -214,7 +216,7 @@ async function mousePressed() {
      if (card) {
     
         for (let slot of mySlots){
-            if (slot.click(mouseX, mouseY)) {//getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
+            if (slot.click(mouseX, mouseY)) {
                 console.log(mySlots.length);    
                 card.deselect();
                     placeCard(playerId, card, slot);
@@ -227,9 +229,25 @@ async function mousePressed() {
                 returnCard(playerId, card)              
             } 
         }
-    } for (let card of optable) {
-        if (card.click(mouseX, mouseY)){
-            attackOpponentCard(card)
+    } else {
+        if (tableCard){
+            tableCard.click(mouseX, mouseY);
+        } else {
+            for (let card of mytable) {
+                if(card.click(mouseX, mouseY)){
+                    var cardAtk = card.getAtk()
+                    console.log(cardAtk)
+                }
+                
+            }
+        }
+
+        if(tableCard){
+            for (let card of optable) {
+                if (card.click(mouseX, mouseY)){
+                    attackOpponentCard(card)
+                }
+            }
         }
     }
 }
