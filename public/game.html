@@ -20,8 +20,9 @@
   <header>
   </header>
   <main id="game">
-    <button name="button" class="btnEndMyTurn" type="button" onclick="requestStateChange(1, 2), window.location.reload()">End my turn</button>
-    <button name="button" class="btnEndOpTurn" type="button" onclick="requestStateChange(1, 1), window.location.reload()">End opponent turn</button>
+    <button name="button" class="btnEndMyTurn" type="button" onclick="requestStateChange(1, 2), window.location.reload()">End Setup phase</button>
+    <button name="button" class="btnEndOpTurn" type="button" onclick="requestStateChange(1, 1), window.location.reload()">End Fight phase</button>
+    <button name="button" class="btnResetHp" type="button" onclick="requestHpReset(), window.location.reload()">Reset Card Hp</button>
 </main>
   
 </body>

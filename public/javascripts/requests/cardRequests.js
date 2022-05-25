@@ -210,3 +210,19 @@ async function requestAttackCard (pId, atkValue, cId, opId) {
         console.log(err);
     }
 }
+
+async function requestHpReset(){
+    try {
+        const response = await fetch(`/api/cards/reset`);
+        if (response.status == 200) {
+           var hpReset = await response.json();
+           return hpReset;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

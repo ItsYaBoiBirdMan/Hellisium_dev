@@ -74,5 +74,9 @@ router.post('/actions/player/:pId', async function(req, res, next) {
 
 });
 
-router.post('/player/:pIdm/')
+router.post('/reset', async function(req, res, next) {
+    console.log("Reseted opponent's card hp")
+    let result = await cModel.resetCardsHp();
+    res.status(result.status).send(result.result);
+});
 module.exports = router;

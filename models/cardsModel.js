@@ -268,3 +268,26 @@ module.exports.getCardAtkById = async function(cId){
     return { status: 500, result: err }
   }
 }
+
+module.exports.resetCardsHp = async function(){
+  try{
+    let sql = `update deck set deck_current_hp = 8
+               where deck_card_id = 1 and deck_player_id = 2;
+               update deck set deck_current_hp = 6
+               where deck_card_id = 2 and deck_player_id = 2;
+               update deck set deck_current_hp = 4
+               where deck_card_id = 3 and deck_player_id = 2;
+               update deck set deck_current_hp = 15
+               where deck_card_id = 4 and deck_player_id = 2;
+               update deck set deck_current_hp = 12
+               where deck_card_id = 5 and deck_player_id = 2;
+               update deck set deck_current_hp = 3
+               where deck_card_id = 6 and deck_player_id = 2`
+    let result = await pool.query(sql)
+    let returnToHand = result.rows
+    return { status: 200, result: returnToHand }
+  } catch (err) {
+    console.log(err)
+    return { status: 500, result: err }
+  }
+}
