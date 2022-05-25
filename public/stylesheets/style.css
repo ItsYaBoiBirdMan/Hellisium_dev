@@ -6,17 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
-.btnAtkStyle {
-  top:50%;
+.btnEndMyTurn {
+  top:45%;
   left:2%;
   position: absolute;
   padding: 5px 20px;
   margin:8px 70px;
 }
 
-.btnResStyle {
+.btnEndOpTurn {
   top:50%;
-  left:16.5%;
+  left:2%;
   position: absolute;
   padding: 5px 20px;
   margin:8px 70px;

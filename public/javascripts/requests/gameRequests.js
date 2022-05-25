@@ -109,3 +109,32 @@ async function requestGameInfoByPlayerId (pId) {
         console.log(err);
     }
 }
+
+async function requestStateChange(gId, staId){
+    try {
+        console.log({
+            state: staId
+        })
+        const response = await fetch(`/api/game/${gId}/state`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            state: staId
+          })
+        });
+        if (response.status == 200) {
+           var end = await response.json();
+           return end;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

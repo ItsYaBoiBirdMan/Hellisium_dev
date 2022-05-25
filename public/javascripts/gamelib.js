@@ -55,6 +55,9 @@ const OPSPACE = 370
 var myCards
 var opCards
 
+let enemyVisible = false
+let cardsPlaceble = true
+
 async function setup() {
     noLoop()
     var canvas = createCanvas(width, height);
@@ -70,7 +73,17 @@ async function setup() {
 async function loadInfo() {
     myInfo = await requestPlayerInfoById(playerId)
     opInfo = await requestPlayerInfoById(opponentId)
-    gameInfo = await requestGameInfoById(1)
+    gameInfo = await requestGameInfoById(gameId)
+    for(let game of gameInfo) {
+        if (game.game_state === 2){
+            enemyVisible = true
+            cardsPlaceble = false
+        } else {
+            enemyVisible = false
+            cardsPlaceble = true
+        }
+    }
+    
 }
     
 
@@ -92,7 +105,6 @@ async function loadBoard () {
 async function loadCards () {
     myCards = await requestPlayerDeck(playerId);
     opCards = await requestPlayerDeck(opponentId);
-    
     let handPos = 0;
     hand = [];
     
@@ -178,8 +190,10 @@ function draw() {
     for (let card of mytable){
         card.draw();
     }
-    for (let card of optable){
-        card.draw()
+    for(let card of optable){
+        if(enemyVisible){
+            card.draw()
+        }
     }
 }
 
@@ -187,13 +201,16 @@ async function mousePressed() {
     let card
 
     card = returnSelected(hand);
-    if (card) {
-        card.click(mouseX, mouseY);
-    } else {
-        for (let card of hand){
+    if (cardsPlaceble){
+        if (card) {
             card.click(mouseX, mouseY);
-        } 
+        } else {
+            for (let card of hand){
+                card.click(mouseX, mouseY);
+            } 
+        }
     }
+    
      if (card) {
     
         for (let slot of mySlots){
@@ -201,13 +218,14 @@ async function mousePressed() {
                 console.log(mySlots.length);    
                 card.deselect();
                     placeCard(playerId, card, slot);
-                    //break;
             }
         }
-    } for (let card of mytable) {
-        if (card.click(mouseX, mouseY)) { 
-            card.deselect();
-            returnCard(playerId, card)              
+    } if (cardsPlaceble){
+        for (let card of mytable) {
+            if (card.click(mouseX, mouseY)) { 
+                card.deselect();
+                returnCard(playerId, card)              
+            } 
         }
     } for (let card of optable) {
         if (card.click(mouseX, mouseY)){

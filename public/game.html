@@ -19,7 +19,11 @@
 <body>
   <header>
   </header>
-  <main id="game"></main>
+  <main id="game">
+    <button name="button" class="btnEndMyTurn" type="button" onclick="requestStateChange(1, 2), window.location.reload()">End my turn</button>
+    <button name="button" class="btnEndOpTurn" type="button" onclick="requestStateChange(1, 1), window.location.reload()">End opponent turn</button>
+</main>
+  
 </body>
 
 </html>
