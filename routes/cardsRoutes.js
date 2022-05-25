@@ -73,4 +73,6 @@ router.post('/actions/player/:pId', async function(req, res, next) {
     
 
 });
+
+router.post('/player/:pIdm/')
 module.exports = router;

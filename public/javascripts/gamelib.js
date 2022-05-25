@@ -75,6 +75,8 @@ async function loadInfo() {
     
 
 async function loadBoard () {
+    mySlots = []
+    opSlots = []
     for(let i = 0; i < 6; i++){
         if (i < 3) {
             mySlots.push(new Slot(250 + CARDSPACE * i, 460, i + 2))
@@ -196,8 +198,10 @@ async function mousePressed() {
     
         for (let slot of mySlots){
             if (slot.click(mouseX, mouseY)) {//getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
-                    card.deselect();
+                console.log(mySlots.length);    
+                card.deselect();
                     placeCard(playerId, card, slot);
+                    //break;
             }
         }
     } for (let card of mytable) {
