@@ -59,8 +59,8 @@ module.exports.attackCardById = async function (atkValue, cId, opId) {
       return {status: 400, result: {msg: "That card is not on the table"}}
     } else {
       let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
-               where deck_card_id = $2
-               and deck_player_id = $3`;
+                 where deck_card_id = $2
+                 and deck_player_id = $3`;
       let result = await pool.query(sql, [atkValue, cId, opId]);
       if (result.rows.length > 0) {
         let damage = result.rows;
@@ -235,7 +235,7 @@ module.exports.removeCardBecauseDeath = async function (cId, pId){
 module.exports.checkIfCardIsDead = async function (pId, cId){
   try{
     let sql = `select * from deck
-               where deck_current_hp = 0
+               where deck_current_hp <= 0
                and deck_player_id = $1
                and deck_card_id = $2`
     let result = await pool.query(sql, [pId, cId])

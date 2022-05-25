@@ -55,7 +55,6 @@ const OPSPACE = 370
 var myCards
 var opCards
 
-
 async function setup() {
     noLoop()
     var canvas = createCanvas(width, height);
@@ -182,10 +181,6 @@ function draw() {
     }
 }
 
-async function PlaceCardOnSelectedSlot (pId, cId, plcId) {
-    await requestPlaceCardOnSlot(pId, cId, plcId)
-}
-
 async function mousePressed() {
     let card
 
@@ -202,31 +197,31 @@ async function mousePressed() {
         for (let slot of mySlots){
             if (slot.click(mouseX, mouseY)) {//getting weird errors, creates a loops of varying lenghts and I can select a card until they are over
                     card.deselect();
-                    placeCard(card, slot);
+                    placeCard(playerId, card, slot);
             }
         }
     } for (let card of mytable) {
         if (card.click(mouseX, mouseY)) { 
             card.deselect();
-            returnCard(card)              
+            returnCard(playerId, card)              
         }
     } for (let card of optable) {
         if (card.click(mouseX, mouseY)){
-            attackOpponentCard(card, opponentId)
+            attackOpponentCard(card)
         }
     }
 }
 
-async function placeCard(card, slot) {
-    await PlaceCardOnSelectedSlot(playerId, card.getId(), slot.getId());
+async function placeCard(pId, card, slot) {
+    await requestPlaceCardOnSlot(pId, card.getId(), slot.getId())
     await loadCards();
     await loadBoard();
 }
 
 
 
-async function returnCard(card){
-    await requestReturnCardToHand(playerId, card.getId())
+async function returnCard(pId, card){
+    await requestReturnCardToHand(pId, card.getId())
     await loadCards();
     await loadBoard();
 }
@@ -238,8 +233,8 @@ function returnSelected(cardList) {
     return null;
 }
 
-async function attackOpponentCard(card, opId){
-    await requestAttackCard(opponentId, card.getAtk(), card.getId(), opId)
+async function attackOpponentCard(card){
+    await requestAttackCard(playerId, card.getAtk(), card.getId(), opponentId)
     await loadBoard()
     await loadCards()
 }
