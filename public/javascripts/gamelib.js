@@ -56,7 +56,7 @@ var myCards
 var opCards
 
 let enemyVisible = false
-let cardsPlaceble = true
+let cardsPlaceable = true
 
 async function setup() {
     noLoop()
@@ -77,10 +77,10 @@ async function loadInfo() {
     for(let game of gameInfo) {
         if (game.game_state === 2){
             enemyVisible = true
-            cardsPlaceble = false
+            cardsPlaceable = false
         } else {
             enemyVisible = false
-            cardsPlaceble = true
+            cardsPlaceable = true
         }
     }
     
@@ -203,7 +203,7 @@ async function mousePressed() {
 
     tableCard = returnSelected(mytable)
     card = returnSelected(hand);
-    if (cardsPlaceble){
+    if (cardsPlaceable){
         if (card) {
             card.click(mouseX, mouseY);
         } else {
@@ -222,7 +222,7 @@ async function mousePressed() {
                     placeCard(playerId, card, slot);
             }
         }
-    } if (cardsPlaceble){
+    } if (cardsPlaceable){
         for (let card of mytable) {
             if (card.click(mouseX, mouseY)) { 
                 card.deselect();
