@@ -4,7 +4,7 @@ const STATHEIGHT = 60
 
 class Card {
     constructor(id, name, atk, hp, x, y, place) {
-        this.id =id;
+        this.id = id;
         this.name = name;
         this.atk = atk;
         this.hp = hp;

@@ -213,10 +213,17 @@ async function requestAttackCard (pId, atkValue, cId, opId) {
 
 async function requestHpReset(){
     try {
-        const response = await fetch(`/api/cards/reset`);
+        const response = await fetch(`/api/cards/reset`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST"
+        });
         if (response.status == 200) {
-           var hpReset = await response.json();
-           return hpReset;
+           var resetHp = await response.json();
+           return resetHp;
         } else {
             // Treat errors like 404 here
             console.log(response);
