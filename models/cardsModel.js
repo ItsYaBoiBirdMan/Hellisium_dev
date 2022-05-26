@@ -62,7 +62,7 @@ module.exports.attackCardById = async function (atkValue, cId, opId) {
                  where deck_card_id = $2
                  and deck_player_id = $3`;
       let result = await pool.query(sql, [atkValue, cId, opId]);
-      if (result.rows.length > 0) {
+      if (result.rows.length >= 0) {
         let damage = result.rows;
         return { status: 200, result: damage };
       } else {
