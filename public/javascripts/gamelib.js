@@ -245,8 +245,7 @@ async function mousePressed() {
         if(tableCard){
             for (let card of optable) {
                 if (card.click(mouseX, mouseY)){
-                    card.deselect()
-                    attackOpponentCard(playerId, card, card, opponentId)
+                    attackOpponentCard(playerId, card.getAtk(), 3, opponentId)
                 }
             }
         }
@@ -273,7 +272,7 @@ function returnSelected(cardList) {
 }
 
 async function attackOpponentCard(pId, card, target, opId){
-    await requestAttackCard(pId, card.getAtk(), target.getId(), opId)
+    await requestAttackCard(pId, card, target, opId)
     await loadBoard()
     await loadCards()
 }
