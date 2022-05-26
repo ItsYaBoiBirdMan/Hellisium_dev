@@ -200,8 +200,9 @@ async function mousePressed() {
     let card
     let tableCard
 
-    tableCard = returnSelected(mytable)
     card = returnSelected(hand);
+    tableCard = returnSelected(mytable)
+    
     if (cardsPlaceable){
         if (card) {
             card.click(mouseX, mouseY);
