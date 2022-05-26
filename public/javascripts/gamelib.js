@@ -65,7 +65,6 @@ async function setup() {
     loadCards()
     loadBoard()
     loadInfo()
-    loadInfo()
     loop()  
     
 }
@@ -246,9 +245,8 @@ async function mousePressed() {
         if(tableCard){
             for (let card of optable) {
                 if (card.click(mouseX, mouseY)){
-                    let targetId = card.getId()
-                    console.log(targetId)
-                    attackOpponentCard(cardAtk, targetId)
+                    card.deselect()
+                    attackOpponentCard(playerId, card, card, opponentId)
                 }
             }
         }
@@ -274,8 +272,8 @@ function returnSelected(cardList) {
     return null;
 }
 
-async function attackOpponentCard(atk, target){
-    await requestAttackCard(playerId, atk, target, opponentId)
+async function attackOpponentCard(pId, card, target, opId){
+    await requestAttackCard(pId, card.getAtk(), target.getId(), opId)
     await loadBoard()
     await loadCards()
 }
