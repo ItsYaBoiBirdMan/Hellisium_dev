@@ -52,23 +52,18 @@ module.exports.getCardById = async function (id) {
   }
 }
 
-module.exports.attackCardById = async function (atkValue, cId, opId) {
+module.exports.attackCardById = async function (atkValue, cId) {
   try {
-    let targetOnTable = await this.checkIfCardIsOnTable(opId)
-    if (targetOnTable.status != 200){
-      return {status: 400, result: {msg: "That card is not on the table"}}
-    } else {
       let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
-                 where deck_card_id = $2
-                 and deck_player_id = $3`;
-      let result = await pool.query(sql, [atkValue, cId, opId]);
+                 where deck_id = $2`;
+      let result = await pool.query(sql, [atkValue, cId]);
       if (result.rows.length >= 0) {
         let damage = result.rows;
         return { status: 200, result: damage };
       } else {
         return { status: 404, result: { msg: "No card with that id" } };
       }
-    }
+    
       
   } catch (err) {
     console.log(err);

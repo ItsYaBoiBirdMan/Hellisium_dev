@@ -229,24 +229,23 @@ async function mousePressed() {
                 returnCard(playerId, card)              
             } 
         }
-    } else {
+    } else {        
         if (tableCard){
             tableCard.click(mouseX, mouseY);
         } else {
             for (let card of mytable) {
                 if(card.click(mouseX, mouseY)){
-                    var cardAtk = card.getAtk()
-                    console.log(cardAtk)
-                    return(cardAtk)
+                    let myCardAtk = card.getAtk()
+                    console.log(myCardAtk)
+
                 }
-                
             }
         }
 
         if(tableCard){
             for (let card of optable) {
                 if (card.click(mouseX, mouseY)){
-                    attackOpponentCard(playerId, card.getAtk(), 3, opponentId)
+                   await attackOpponentCard(playerId, tableCard.getAtk(), card.getId())
                 }
             }
         }
@@ -272,8 +271,8 @@ function returnSelected(cardList) {
     return null;
 }
 
-async function attackOpponentCard(pId, card, target, opId){
-    await requestAttackCard(pId, card, target, opId)
+async function attackOpponentCard(pId, cardatk, target){
+    await requestAttackCard(pId, cardatk, target)
     await loadBoard()
     await loadCards()
 }

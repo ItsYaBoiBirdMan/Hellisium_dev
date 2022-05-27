@@ -58,10 +58,9 @@ router.post('/actions/player/:pId', async function(req, res, next) {
         res.status(result.status).send(result.result)
     } else if (action === "attackCard"){
         let atk = req.body.atk
-        let opId = req.body.opponent
         console.log(`
         Dealt ` + atk + ` damage to opponent card with id ` + cId)
-        let result = await cModel.attackCardById(atk, cId, opId)
+        let result = await cModel.attackCardById(atk, cId)
         res.status(result.status).send(result.result)
     } else if (action === "killCard"){
         console.log(`
