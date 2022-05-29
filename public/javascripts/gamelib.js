@@ -125,7 +125,6 @@ async function loadCards () {
                 HANDX + CARDSPACE * handPos, HANDY.upper, card.deck_card_place));
             }
         } else if (card.deck_card_place != 1 && card.deck_card_place != 8) {
-            
                 if (card.deck_card_place === 2) {
                     mytable.push(new Card(card.deck_id, card.card_name, card.card_atk, card.deck_current_hp, 
                     TABLE.one.x, TABLE.one.y, card.deck_card_place));
@@ -217,9 +216,12 @@ async function mousePressed() {
     
         for (let slot of mySlots){
             if (slot.click(mouseX, mouseY)) {
-                console.log(mySlots.length);    
-                card.deselect();
-                placeCard(playerId, card, slot);
+                if (mytable.length < 3){    
+                    card.deselect();
+                    placeCard(playerId, card, slot);
+                } else {
+                    slot.deselect();
+                }
             }
         }
     } if (cardsPlaceable){
