@@ -221,6 +221,7 @@ async function mousePressed() {
                     placeCard(playerId, card, slot);
                 } else {
                     slot.deselect();
+                    card.deselect();
                 }
             }
         }
