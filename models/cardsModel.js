@@ -35,23 +35,6 @@ module.exports.getAllCards = async function () {
     }
   }
   
-
-module.exports.getCardById = async function (id) {
-  try {
-    let sql = `Select * from deck, card where card_id = $1 and deck_card_id = card_id`;
-    let result = await pool.query(sql, [id]);
-    if (result.rows.length > 0) {
-      let card = result.rows[0];
-      return { status: 200, result: card };
-    } else {
-      return { status: 404, result: { msg: "No card with that id" } };
-    }
-  } catch (err) {
-    console.log(err);
-    return { status: 500, result: err };
-  }
-}
-
 module.exports.attackCardById = async function (atkValue, cId) {
   try {
       let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
@@ -243,24 +226,6 @@ module.exports.checkIfCardIsDead = async function (pId, cId){
   } catch (err){
     console.log(err)
     return {status: 500, result: err}
-  }
-}
-
-module.exports.getCardAtkById = async function(cId){
-  try{
-    let sql = `select card_atk
-               from card
-               and card_id = $1`
-    let result = await pool.query(sql, [cId])
-    if(result.rows.length > 0){
-      let atk = result.rows[0]
-      return { status: 200, result: atk }
-    } else {
-      return { status: 404, result: { msg:"No card with that id found" } }
-    }
-  } catch (err){
-    console.log(err)
-    return { status: 500, result: err }
   }
 }
 

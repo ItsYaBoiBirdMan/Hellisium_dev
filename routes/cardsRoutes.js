@@ -8,13 +8,6 @@ router.get('/', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
-router.get('/:id', async function(req, res, next) {
-    let id = req.params.id;
-    console.log("Get card with Id " + id)
-    let result = await cModel.getCardById(id);
-    res.status(result.status).send(result.result);
-});
-
 router.get('/playerdeck/:pId', async function(req, res, next) {
     let pId = req.params.pId;
     console.log("Get deck of player with id " + pId)
@@ -34,7 +27,6 @@ router.post('/decks', async function(req, res, next) {
         res.status(result.status).send(result.result);
     } else
     res.status(400).send({msg:"Invalid action"})
-
 });
 
 

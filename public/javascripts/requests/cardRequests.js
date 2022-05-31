@@ -14,21 +14,6 @@ async function requestAllCards() {
     }
 }
 
-async function requestCardById(cardId) {
-    try {
-        const response = await fetch(`/api/cards/${cardId}`);
-        if (response.status == 200) {
-           var card = await response.json();
-           return card;
-        } else {
-            // Treat errors like 404 here
-            console.log(response);
-        }
-    } catch (err) {
-        // Treat 500 errors here
-        console.log(err);
-    }
-}
 
 async function requestPlayerDeck(pId) {
     try {
