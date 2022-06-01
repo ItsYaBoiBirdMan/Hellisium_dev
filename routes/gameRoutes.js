@@ -8,6 +8,14 @@ router.get('/', async function(req, res, next) {
     res.status(result.status).send(result.result);
 });
 
+router.get('/:gId/opponent/:pId', async function(req, res, next){
+    let gId = req.params.gId;
+    let pId = req.params.pId;
+    console.log("Get opponent info from game with id " + gId);
+    let result = await gModel.getOpponent(pId, gId)
+    res.status(result.status).send(result.result);
+});
+
 router.get('/:gId', async function(req, res, next){
     let gId = req.params.gId;
     console.log("Get info from game with id " + gId);

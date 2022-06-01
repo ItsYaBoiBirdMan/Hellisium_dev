@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 var pool = require('./connection.js');
 
 module.exports.getAllGamesInfo = async function () { 
@@ -49,5 +50,20 @@ module.exports.changeGameState = async function(stateId, roomId){
   } catch (err) {
     console.log(err)
     return { status: 500, result: err }
+  }
+}
+
+module.exports.getOpponent = async function (pId, gId){
+  try{
+    let sql = `select game_player_id, game_room_id, player_id, player_name, player_hp
+               from game, player
+               where game_player_id = player_id 
+               and game_player_id != $1
+               and game_room_id = $2`
+    let result = await pool.query(sql, [pId, gId])
+    let opponent = result.rows;
+    return { status: 200, result: opponent };
+  } catch (err) {
+
   }
 }
