@@ -58,3 +58,19 @@ async function requestStateChange(gId, staId){
         console.log(err);
     }
 }
+
+async function requestOpponent(pId, gId) {
+    try {
+        const response = await fetch(`/api/game/${gId}/opponent/${pId}`);
+        if (response.status == 200) {
+           var games = await response.json();
+           return games;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
