@@ -21,7 +21,7 @@ class Card {
         } else {
             fill(200, 200, 800);
         }
-        strokeWeight(3);
+        strokeWeight(5);
         if (this.selected) {
             stroke(200, 0, 0);
         } else {

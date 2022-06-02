@@ -92,10 +92,10 @@ async function loadBoard () {
     for(let i = 0; i < 6; i++){
         if (i < 3) {
             mySlots.push(new Slot(250 + CARDSPACE * i, 460, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * i, 460 - OPSPACE, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * i, 460 - OPSPACE, i + 5))
         } else {
             mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 610, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 610 - OPSPACE, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 610 - OPSPACE, i - 1))
         }
         
     }
@@ -149,22 +149,22 @@ async function loadCards () {
     }
     for (let card of opCards) {
         if (card.deck_card_place != 1 && card.deck_card_place != 8) {
-            if (card.deck_card_place === 2) {
+            if (card.deck_card_place === 5) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place));
-            } else if (card.deck_card_place === 3) {
-                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place));
-            } else if (card.deck_card_place === 4) {
-                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place));
-            } else if (card.deck_card_place === 5) {
-                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 6) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place));
+                TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place));
             } else if (card.deck_card_place === 7) {
+                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 2) {
+                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 3) {
+                optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
+                TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place));
+            } else if (card.deck_card_place === 4) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place));
             } 
