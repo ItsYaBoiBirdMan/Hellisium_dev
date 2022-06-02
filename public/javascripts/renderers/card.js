@@ -1,6 +1,7 @@
 const CWIDTH = 100;
 const CHEIGHT = 140;
-const STATHEIGHT = 60
+const HPHEIGHT = 55
+const ATKHEIGHT = 52
 
 class Card {
     constructor(id, name, atk, hp, x, y, place) {
@@ -12,7 +13,7 @@ class Card {
         this.y = y;
         this.selected = false;
         this.place = place
-        this.image = null
+        this.image = loadImage("./assets/cards/Card_" + this.id + ".png")
     }
     draw() {
         if (this.selected) {
@@ -31,11 +32,11 @@ class Card {
         fill(0, 0, 0);
         stroke(0, 0, 0);
         strokeWeight(1);
+        imageMode(CENTER)
+        image(this.image, this.x, this.y, CWIDTH, CHEIGHT)
         textAlign(CENTER, CENTER);
-        text(this.name, this.x, this.y - CHEIGHT / 2.5);
-        textAlign(LEFT, CENTER);
-        text("HP: " + this.hp, this.x + 6, this.y + STATHEIGHT);
-        text("ATK: " + this.atk, this.x - 40, this.y + STATHEIGHT);
+        text(this.hp, this.x + 24.5, this.y + HPHEIGHT);
+        text(this.atk, this.x - 24, this.y + ATKHEIGHT);
     }
     getId() { return this.id;}
 
