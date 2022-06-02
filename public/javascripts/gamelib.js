@@ -40,7 +40,7 @@ TABLE.three.x = TABLE.two.x + CARDSPACE
 TABLE.three.y = TABLE.one.y
 
 TABLE.four.x = TABLE.one.x
-TABLE.four.y = TABLE.one.y + 150
+TABLE.four.y = TABLE.one.y + 170
 
 TABLE.five.x = TABLE.two.x
 TABLE.five.y = TABLE.four.y
@@ -50,7 +50,7 @@ TABLE.six.y = TABLE.four.y
 
 var opponent = [];
 
-const OPSPACE = 350
+const OPSPACE = 355
 
 var myCards
 var opCards

@@ -35,8 +35,13 @@ module.exports.getAllCards = async function () {
     }
   }
   
-module.exports.attackCardById = async function (atkValue, cId, opId) {
+module.exports.attackCardById = async function (pId, atkValue, cId, opId) {
   try {
+    let res1
+    res1 = await this.checkIfCardAttacked(cId, pId)
+    if (res1.result != 200){
+        return{ status: 400, result: { msg: "That card as already attacked" } }
+    } else {
       let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
                  where deck_card_id = $2
                  and deck_player_id = $3`;
@@ -47,8 +52,7 @@ module.exports.attackCardById = async function (atkValue, cId, opId) {
       } else {
         return { status: 404, result: { msg: "No card with that id" } };
       }
-    
-      
+    }  
   } catch (err) {
     console.log(err);
     return { status: 500, result: err };
@@ -112,9 +116,7 @@ module.exports.placeCardOnSlot = async function (placeId, cardId, pId) {
   try {
     console.log([placeId, cardId, pId]);
     let res1
-    let res2
     res1 = await this.checkIfSlotIsOccupied(pId, placeId)
-    //res2 = await this.checkIfCardIsOnTable(pId)
      
     if(res1.status != 200){
       return res1
@@ -250,5 +252,53 @@ module.exports.resetCardsHp = async function(){
   } catch (err) {
     console.log(err)
     return { status: 500, result: err }
+  }
+}
+
+module.exports.checkIfCardAttacked = async function (cId, pId){
+  try{
+    let sql = `select deck_card_id, deck_player_id, deck_card_attacked
+               from deck
+               where deck_card_id = $1
+               and deck_player_id = $2
+               and deck_card_attacked = true`
+    let result = await pool.query(sql, [cId, pId])
+    if(result.rows.length === 0){
+      let attackCheck = result.rows
+      return { status: 200, result: attackCheck }
+    } else {
+      return { status: 404, result: { msg:"That card has already attacked" } }
+    } 
+  } catch (err) {
+    console.log(err);
+    return{ status: 500, return: err }
+  }
+}
+
+module.exports.setCardToAttacked = async function (cId, pId) {
+  try{
+    let sql = `update deck set deck_card_attacked = true
+               where deck_card_id = $1
+               and deck_player_id = $2`
+    let result = await pool.query(sql, [cId, pId])
+    let setAttacked = result.rows
+    return { status: 200, result: setAttacked }
+  } catch (err) {
+    console.log(err)
+    return { status: 500, return: err }
+  }
+}
+
+module.exports.setCardToNotAttacked = async function (cId, pId) {
+  try{
+    let sql = `update deck set deck_card_attacked = false
+               where deck_card_id = $1
+               and deck_player_id = $2`
+    let result = await pool.query(sql, [cId, pId])
+    let setNotAttacked = result.rows
+    return { status: 200, result: setNotAttacked }
+  } catch (err) {
+    console.log(err)
+    return { status: 500, return: err }
   }
 }

@@ -66,6 +66,24 @@ router.post('/actions/player/:pId', async function(req, res, next) {
 
 });
 
+router.post('/actions/player/:pId/attacked', async function(req, res, next) {
+    let pId = req.params.pId
+    let cId = req.body.card
+    let sta = req.body.state
+    if (sta === "attacked") {
+        console.log(`
+        Set card with id ` + cId + ` from player with id ` + pId + ` to attacked`)
+        let result = await cModel.setCardToAttacked(cId, pId)
+        res.status(result.status).send(result.result);
+    } else if (sta === "notAttacked") {
+        console.log(`
+        Set card with id ` + cId + ` from player with id ` + pId + ` to not attacked`)
+        let result = await cModel.setCardToNotAttacked(cId, pId)
+        res.status(result.status).send(result.result);
+    } else
+    res.status(400).send({msg:"Invalid state"})
+});
+
 router.post('/reset', async function(req, res, next) {
     console.log("Reseted opponent's card hp")
     let result = await cModel.resetCardsHp();
