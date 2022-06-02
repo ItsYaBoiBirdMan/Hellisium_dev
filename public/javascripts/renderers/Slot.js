@@ -1,5 +1,5 @@
-const SWIDTH = 100
-const SHEIGHT = 140
+const SWIDTH = 120
+const SHEIGHT = 160
 
 class Slot{
     constructor(x, y, placeId){

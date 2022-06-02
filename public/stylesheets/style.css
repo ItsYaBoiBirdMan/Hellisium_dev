@@ -8,7 +8,7 @@ a {
 }
 .btnEndMyTurn {
   top:350px;
-  left:25px;
+  left:20px;
   position: absolute;
   padding: 5px 20px;
   margin:8px 70px;
@@ -16,7 +16,7 @@ a {
 
 .btnEndOpTurn {
   top:400px;
-  left:25px;
+  left:20px;
   position: absolute;
   padding: 5px 20px;
   margin:8px 70px;
@@ -35,6 +35,16 @@ a {
   left:45%;
   position: absolute;
   width: 25%;
+}
+
+body{
+  background-image: url('/assets/Ui/Game_background.png');
+  height: 15vh;
+  margin:0;
+  display: flex;
+  grid-template-columns: 100px auto;
+  grid-template-areas: 'h h' 'n m' 'f f';
+  grid-template-rows: 170px auto 70px
 }
 
 

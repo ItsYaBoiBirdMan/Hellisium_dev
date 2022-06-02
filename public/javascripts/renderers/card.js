@@ -1,7 +1,7 @@
-const CWIDTH = 100;
-const CHEIGHT = 140;
-const HPHEIGHT = 55
-const ATKHEIGHT = 52
+const CWIDTH = 120;
+const CHEIGHT = 160;
+const HPHEIGHT = 63
+const ATKHEIGHT = 59
 
 class Card {
     constructor(id, name, atk, hp, x, y, place) {
@@ -35,8 +35,9 @@ class Card {
         imageMode(CENTER)
         image(this.image, this.x, this.y, CWIDTH, CHEIGHT)
         textAlign(CENTER, CENTER);
-        text(this.hp, this.x + 24.5, this.y + HPHEIGHT);
-        text(this.atk, this.x - 24, this.y + ATKHEIGHT);
+        textSize(18)
+        text(this.hp, this.x + 29.5, this.y + HPHEIGHT);
+        text(this.atk, this.x - 28, this.y + ATKHEIGHT);
     }
     getId() { return this.id;}
 
