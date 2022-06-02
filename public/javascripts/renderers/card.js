@@ -12,6 +12,7 @@ class Card {
         this.y = y;
         this.selected = false;
         this.place = place
+        this.image = null
     }
     draw() {
         if (this.selected) {

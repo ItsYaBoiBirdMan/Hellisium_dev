@@ -161,11 +161,12 @@ async function requestReturnCardToHand (pId, cId) {
     }
 }
 
-async function requestAttackCard (pId, atkValue, cId) {
+async function requestAttackCard (pId, atkValue, cId, opId) {
     try {
         console.log({
             atk: atkValue,
             card: cId,
+            opponent: opId,
             action: "attackCard"
         })
         const response = await fetch(`/api/cards/actions/player/${pId}`, 
@@ -178,6 +179,7 @@ async function requestAttackCard (pId, atkValue, cId) {
           body: JSON.stringify({
             atk: atkValue,
             card: cId,
+            opponent: opId,
             action: "attackCard"
           })
         });
