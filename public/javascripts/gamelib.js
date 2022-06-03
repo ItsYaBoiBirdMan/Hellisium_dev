@@ -5,6 +5,8 @@ var myInfo;
 var opInfo;
 var gameInfo;
 
+var gameState;
+
 var myHp
 var opHp
 
@@ -77,12 +79,15 @@ async function loadInfo() {
         if (game.game_state === 2){
             enemyVisible = true
             cardsPlaceable = false
+            gameState = game.game_state
+            console.log(gameState)
         } else {
             enemyVisible = false
             cardsPlaceable = true
+            gameState = game.game_state
+            console.log(gameState)
         }
-    }
-    
+    }  
 }
     
 
