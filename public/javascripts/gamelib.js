@@ -1,5 +1,5 @@
 const width = 1400;
-const height = 700;
+const height = 800;
 
 var myInfo;
 var opInfo;
@@ -16,7 +16,7 @@ var opSlots = []
 var hand = [];
 const HANDX = 1050;
 const HANDY = {};
-HANDY.upper = 260;
+HANDY.upper = 280;
 HANDY.middle = HANDY.upper + 175
 HANDY.lower = HANDY.middle + 175
 
@@ -31,7 +31,7 @@ TABLE.five = {}
 TABLE.six = {}
 
 TABLE.one.x = 250
-TABLE.one.y = 440
+TABLE.one.y = 480
 
 TABLE.two.x = TABLE.one.x + CARDSPACE
 TABLE.two.y = TABLE.one.y
@@ -50,7 +50,7 @@ TABLE.six.y = TABLE.four.y
 
 var opponent = [];
 
-const OPSPACE = 355
+const OPSPACE = 375
 
 var myCards
 var opCards
@@ -91,11 +91,11 @@ async function loadBoard () {
     opSlots = []
     for(let i = 0; i < 6; i++){
         if (i < 3) {
-            mySlots.push(new Slot(250 + CARDSPACE * i, 440, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * i, 440 - OPSPACE, i + 5))
+            mySlots.push(new Slot(250 + CARDSPACE * i, 480, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * i, 480 - OPSPACE, i + 5))
         } else {
-            mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 610, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 610 - OPSPACE, i - 1))
+            mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 650, i + 2))
+            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 650 - OPSPACE, i - 1))
         }
         
     }
@@ -248,11 +248,10 @@ async function mousePressed() {
         if(tableCard){
             for (let card of optable) {
                 let attacked = tableCard.hasAttacked()
-                console.log(attacked)
                 if (card.click(mouseX, mouseY)){
                    await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
                    await requestSetAttacked(tableCard.getId(), playerId)
-                   console.log(attacked)
+                   console.log(tableCard.getId())
                 }
             }
         }

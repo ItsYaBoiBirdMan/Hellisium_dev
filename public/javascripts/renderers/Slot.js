@@ -19,14 +19,13 @@ class Slot{
         noFill();
         rect(this.x, this.y, SWIDTH, SHEIGHT);
         strokeWeight(1)
-        text(this.placeId, this.x, this.y)
+        //text(this.placeId, this.x, this.y)
     }
 
     getId() { return this.placeId;}
 
     isSelected() { return this.selected; }
     deselect() {this.selected = false;}
-
 
     click(x, y) {
 
