@@ -280,3 +280,34 @@ async function requestSetNotAttacked (cId, pId){
         console.log(err);
     }
 }
+
+async function requestRemoveCard (pId, cId) {
+    try {
+        console.log({
+            card: cId,
+            action: "killCard"
+        })
+        const response = await fetch(`/api/cards/actions/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            card: cId,
+            action: "killCard"
+          })
+        });
+        if (response.status == 200) {
+           var damage = await response.json();
+           return damage;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

@@ -251,10 +251,23 @@ async function mousePressed() {
                 if (card.click(mouseX, mouseY)){
                    await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
                    await requestSetAttacked(tableCard.getId(), playerId)
-                   console.log(tableCard.getId())
                 }
             }
         }
+    }
+    for (let card of optable) {
+        if(card.getHp() <= 0){
+            removeCard(opponentId, card.getId())
+       } else {
+            returnCard(opponentId, card.getId())
+       }
+    }
+    for (let card of mytable) {
+        if(card.getHp() <= 0){
+            removeCard(playerId, card.getId())
+       } else {
+            returnCard(playerId, card.getId())
+       }
     }
 }
 
@@ -281,4 +294,10 @@ async function attackOpponentCard(pId, cardatk, target, opId){
     await requestAttackCard(pId, cardatk, target, opId)
     await loadBoard()
     await loadCards()
+}
+
+async function removeCard(pId, card){
+    await requestRemoveCard(pId, card)
+    await loadBoard();
+    await loadCards();
 }

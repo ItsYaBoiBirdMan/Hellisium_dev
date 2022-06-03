@@ -6,7 +6,7 @@ async function loginUser() {
         if (result.logged) {
             sessionStorage.setItem("pId",result.player_id);
             sessionStorage.setItem("oId",result.player_id);
-            window.location = "room.html"
+            window.location = "game.html"
         } else {
             document.getElementById("result").innerHTML = "Wrong username or password";
         }
