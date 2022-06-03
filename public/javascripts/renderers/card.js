@@ -4,16 +4,17 @@ const HPHEIGHT = 63
 const ATKHEIGHT = 59
 
 class Card {
-    constructor(id, name, atk, hp, x, y, place) {
+    constructor(id, name, atk, hp, x, y, place, attacked) {
         this.id = id;
         this.name = name;
         this.atk = atk;
         this.hp = hp;
         this.x = x;
         this.y = y;
+        this.place = place;
+        this.attacked = attacked;
         this.selected = false;
-        this.place = place
-        this.image = loadImage("./assets/cards/Card_" + this.id + ".png")
+        this.image = loadImage("./assets/cards/Card_" + this.id + ".png");
     }
     draw() {
         if (this.selected) {
@@ -46,6 +47,7 @@ class Card {
     getHp() { return this.hp; }
     setHp(hp) { this.hp = hp;  }
     
+    hasAttacked() { return this.attacked }
     
     isSelected() { return this.selected; }
     deselect() {this.selected = false;}

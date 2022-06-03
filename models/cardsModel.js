@@ -35,13 +35,8 @@ module.exports.getAllCards = async function () {
     }
   }
   
-module.exports.attackCardById = async function (pId, atkValue, cId, opId) {
+module.exports.attackCardById = async function (atkValue, cId, opId) {
   try {
-    let res1
-    res1 = await this.checkIfCardAttacked(cId, pId)
-    if (res1.result != 200){
-        return{ status: 400, result: { msg: "That card as already attacked" } }
-    } else {
       let sql = `UPDATE deck SET deck_current_hp = deck_current_hp - $1
                  where deck_card_id = $2
                  and deck_player_id = $3`;
@@ -52,7 +47,6 @@ module.exports.attackCardById = async function (pId, atkValue, cId, opId) {
       } else {
         return { status: 404, result: { msg: "No card with that id" } };
       }
-    }  
   } catch (err) {
     console.log(err);
     return { status: 500, result: err };

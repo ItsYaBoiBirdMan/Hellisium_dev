@@ -116,33 +116,33 @@ async function loadCards () {
             handPos++;
             if (handPos > 2 && handPos <= 4){
                 hand.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                HANDX + CARDSPACE * (handPos - 2), HANDY.middle, card.deck_card_place));
+                HANDX + CARDSPACE * (handPos - 2), HANDY.middle, card.deck_card_place, card.deck_card_attacked));
             } else if (handPos > 4) {
                 hand.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                HANDX + CARDSPACE * (handPos - 4), HANDY.lower, card.deck_card_place));
+                HANDX + CARDSPACE * (handPos - 4), HANDY.lower, card.deck_card_place, card.deck_card_attacked));
             } else {
                 hand.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                HANDX + CARDSPACE * handPos, HANDY.upper, card.deck_card_place));
+                HANDX + CARDSPACE * handPos, HANDY.upper, card.deck_card_place, card.deck_card_attacked));
             }
         } else if (card.deck_card_place != 1 && card.deck_card_place != 8) {
                 if (card.deck_card_place === 2) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.one.x, TABLE.one.y, card.deck_card_place));
+                    TABLE.one.x, TABLE.one.y, card.deck_card_place, card.deck_card_attacked));
                 } else if (card.deck_card_place === 3) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.two.x, TABLE.two.y, card.deck_card_place));
+                    TABLE.two.x, TABLE.two.y, card.deck_card_place, card.deck_card_attacked));
                 } else if (card.deck_card_place === 4) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.three.x, TABLE.three.y, card.deck_card_place));
+                    TABLE.three.x, TABLE.three.y, card.deck_card_place, card.deck_card_attacked));
                 } else if (card.deck_card_place === 5) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.four.x, TABLE.four.y, card.deck_card_place));
+                    TABLE.four.x, TABLE.four.y, card.deck_card_place, card.deck_card_attacked));
                 } else if (card.deck_card_place === 6) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.five.x, TABLE.five.y, card.deck_card_place));
+                    TABLE.five.x, TABLE.five.y, card.deck_card_place, card.deck_card_attacked));
                 } else if (card.deck_card_place === 7) {
                     mytable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                    TABLE.six.x, TABLE.six.y, card.deck_card_place));
+                    TABLE.six.x, TABLE.six.y, card.deck_card_place, card.deck_card_attacked));
                 } 
             
         }
@@ -151,22 +151,22 @@ async function loadCards () {
         if (card.deck_card_place != 1 && card.deck_card_place != 8) {
             if (card.deck_card_place === 5) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place));
+                TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 6) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place));
+                TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 7) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place));
+                TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 2) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place));
+                TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 3) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place));
+                TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 4) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
-                TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place));
+                TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } 
         }
     }
@@ -247,8 +247,12 @@ async function mousePressed() {
 
         if(tableCard){
             for (let card of optable) {
+                let attacked = tableCard.hasAttacked()
+                console.log(attacked)
                 if (card.click(mouseX, mouseY)){
-                   await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId)
+                   await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
+                   await requestSetAttacked(tableCard.getId(), playerId)
+                   console.log(attacked)
                 }
             }
         }

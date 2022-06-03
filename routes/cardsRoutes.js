@@ -66,7 +66,7 @@ router.post('/actions/player/:pId', async function(req, res, next) {
 
 });
 
-router.post('/actions/player/:pId/attacked', async function(req, res, next) {
+router.post('/attackstate/player/:pId', async function(req, res, next) {
     let pId = req.params.pId
     let cId = req.body.card
     let sta = req.body.state

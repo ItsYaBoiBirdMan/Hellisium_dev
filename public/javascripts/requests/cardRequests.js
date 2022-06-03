@@ -218,3 +218,65 @@ async function requestHpReset(){
         console.log(err);
     }
 }
+
+async function requestSetAttacked (cId, pId){
+    try{
+        console.log({
+            card: cId,
+            state: "attacked"
+        })
+        const response = await fetch(`/api/cards/attackstate/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            card: cId,
+            state: "attacked"
+          })
+        });
+        if (response.status == 200) {
+           var setAttacked = await response.json();
+           return setAttacked;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
+
+async function requestSetNotAttacked (cId, pId){
+    try{
+        console.log({
+            card: cId,
+            state: "notAttacked"
+        })
+        const response = await fetch(`/api/cards/attackstate/player/${pId}`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            card: cId,
+            state: "notAttacked"
+          })
+        });
+        if (response.status == 200) {
+           var setNotAttacked = await response.json();
+           return setNotAttacked;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}
