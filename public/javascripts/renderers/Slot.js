@@ -16,7 +16,7 @@ class Slot{
         } else {
             stroke(0, 0, 0);
         }
-        noFill();
+        fill(248, 177, 108);
         rect(this.x, this.y, SWIDTH, SHEIGHT);
         strokeWeight(1)
         //text(this.placeId, this.x, this.y)
