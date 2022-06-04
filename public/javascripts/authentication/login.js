@@ -8,7 +8,7 @@ async function loginUser() {
             sessionStorage.setItem("oId",result.player_id);
             window.location = "game.html"
         } else {
-            alert("Wrong password/username")//
+            alert("Wrong password/username")
         }
     } catch (err) {
         console.log(err)
