@@ -7,104 +7,103 @@ var gameInfo;
 
 var gameState;
 
-var myHp
-var opHp
+var myHp;
+var opHp;
 
 const CARDSPACE = 140;
 
-var mySlots = []
-var opSlots = []
+var mySlots = [];
+var opSlots = [];
 
 var hand = [];
 const HANDX = 1050;
 const HANDY = {};
 HANDY.upper = 280;
-HANDY.middle = HANDY.upper + 175
-HANDY.lower = HANDY.middle + 175
+HANDY.middle = HANDY.upper + 175;
+HANDY.lower = HANDY.middle + 175;
 
 var mytable = [];
-var optable = []
-const TABLE = {}
-TABLE.one = {}
-TABLE.two = {}
-TABLE.three = {}
-TABLE.four = {}
-TABLE.five = {}
-TABLE.six = {}
+var optable = [];
+const TABLE = {};
+TABLE.one = {},
+TABLE.two = {};
+TABLE.three = {};
+TABLE.four = {};
+TABLE.five = {};
+TABLE.six = {};
 
-TABLE.one.x = 250
-TABLE.one.y = 480
+TABLE.one.x = 250;
+TABLE.one.y = 480;
 
-TABLE.two.x = TABLE.one.x + CARDSPACE
-TABLE.two.y = TABLE.one.y
+TABLE.two.x = TABLE.one.x + CARDSPACE;
+TABLE.two.y = TABLE.one.y;
 
-TABLE.three.x = TABLE.two.x + CARDSPACE
-TABLE.three.y = TABLE.one.y
+TABLE.three.x = TABLE.two.x + CARDSPACE;
+TABLE.three.y = TABLE.one.y;
 
-TABLE.four.x = TABLE.one.x
-TABLE.four.y = TABLE.one.y + 170
+TABLE.four.x = TABLE.one.x;
+TABLE.four.y = TABLE.one.y + 170;
 
-TABLE.five.x = TABLE.two.x
-TABLE.five.y = TABLE.four.y
+TABLE.five.x = TABLE.two.x;
+TABLE.five.y = TABLE.four.y;
 
-TABLE.six.x = TABLE.three.x
-TABLE.six.y = TABLE.four.y
+TABLE.six.x = TABLE.three.x;
+TABLE.six.y = TABLE.four.y;
 
 var opponent = [];
 
-const OPSPACE = 375
+const OPSPACE = 375;
 
-var myCards
-var opCards
+var myCards;
+var opCards;
 
-let enemyVisible = false
-let cardsPlaceable = true
+let enemyVisible = false;
+let cardsPlaceable = true;
 
 async function setup() {
-    noLoop()
+    noLoop();
     var canvas = createCanvas(width, height);
     canvas.parent('game');
-    loadCards()
-    loadBoard()
-    loadInfo()
-    loop()  
+    loadCards();
+    loadBoard();
+    loadInfo();
+    loop();
     
 }
 
 async function loadInfo() {
-    myInfo = await requestPlayerInfoById(playerId)
-    opInfo = await requestPlayerInfoById(opponentId)
-    gameInfo = await requestGameInfoById(gameId)
+    myInfo = await requestPlayerInfoById(playerId);
+    opInfo = await requestPlayerInfoById(opponentId);
+    gameInfo = await requestGameInfoById(gameId);
     for(let game of gameInfo) {
         if (game.game_state === 2){
-            enemyVisible = true
-            cardsPlaceable = false
-            gameState = game.game_state
-            console.log(gameState)
+            enemyVisible = true;
+            cardsPlaceable = false;
+            gameState = game.game_state;
+            console.log(gameState);
         } else {
-            enemyVisible = false
-            cardsPlaceable = true
-            gameState = game.game_state
-            console.log(gameState)
+            enemyVisible = false;
+            cardsPlaceable = true;
+            gameState = game.game_state;
+            console.log(gameState);
         }
     }  
-}
+};
     
 
 async function loadBoard () {
-    mySlots = []
-    opSlots = []
+    mySlots = [];
+    opSlots = [];
     for(let i = 0; i < 6; i++){
         if (i < 3) {
-            mySlots.push(new Slot(250 + CARDSPACE * i, 480, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * i, 480 - OPSPACE, i + 5))
+            mySlots.push(new Slot(250 + CARDSPACE * i, 480, i + 2));
+            opSlots.push(new Slot(250 + CARDSPACE * i, 480 - OPSPACE, i + 5));
         } else {
-            mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 650, i + 2))
-            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 650 - OPSPACE, i - 1))
-        }
-        
+            mySlots.push(new Slot(250 + CARDSPACE * (i - 3), 650, i + 2));
+            opSlots.push(new Slot(250 + CARDSPACE * (i - 3), 650 - OPSPACE, i - 1));
+        }  
     }
-}
+};
 
 async function loadCards () {
     myCards = await requestPlayerDeck(playerId);
@@ -116,6 +115,7 @@ async function loadCards () {
     optable = []
 
     opponent = [];
+
     for (let card of myCards) {
         if (card.deck_card_place === 1) {
             handPos++;
@@ -175,16 +175,16 @@ async function loadCards () {
             } 
         }
     }
-}
+};
     
 function draw() {
     clear();
     for (let slot of mySlots){
-        slot.draw()
+        slot.draw();
     }
 
     for (let slot of opSlots){
-        slot.draw()
+        slot.draw();
     }
     
     for (let card of hand){
@@ -195,17 +195,17 @@ function draw() {
     }
     for(let card of optable){
         if(enemyVisible){
-            card.draw()
+            card.draw();
         }
     }
-}
+};
 
 async function mousePressed() {
-    let card
-    let tableCard
+    let card;
+    let tableCard;
 
     card = returnSelected(hand);
-    tableCard = returnSelected(mytable)
+    tableCard = returnSelected(mytable);
     
     if (cardsPlaceable){
         if (card) {
