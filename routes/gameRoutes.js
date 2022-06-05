@@ -32,4 +32,13 @@ router.post('/:gId/state', async function(req, res, next){
     res.status(result.status).send(result.result);
 });
 
+router.post('/:gId/ready', async function(req, res, next){
+    let gId = req.params.gId;
+    let pId = req.body.player
+    console.log(`
+    Changed the ready state of player with id ` + pId)
+    let result = await gModel.setPlayerReady(pId, gId)
+    res.status(result.status).send(result.result);
+});
+
 module.exports = router;

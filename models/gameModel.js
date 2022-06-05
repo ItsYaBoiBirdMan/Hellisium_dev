@@ -64,6 +64,21 @@ module.exports.getOpponent = async function (pId, gId){
     let opponent = result.rows;
     return { status: 200, result: opponent };
   } catch (err) {
+    console.log(err)
+    return { status: 500, result: err }
+  }
+}
 
+module.exports.setPlayerReady = async function(pId, gId){
+  try{
+    let sql = `update game set game_player_ready = not game_player_ready
+               where game_player_id = $1
+               and game_room_id = $2`
+    let result = await pool.query(sql, [pId, gId])
+    let ready = result.rows;
+    return { status: 200, result: ready }
+  } catch (err) {
+    console.log(err)
+    return { status: 500, result: err }
   }
 }

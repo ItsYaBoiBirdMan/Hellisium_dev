@@ -74,3 +74,32 @@ async function requestOpponent(pId, gId) {
         console.log(err);
     }
 }
+
+async function requestSetPlayerReady(gId, pId){
+    try {
+        console.log({
+            player: pId
+        })
+        const response = await fetch(`/api/game/${gId}/ready`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST",
+          body: JSON.stringify({
+            player: pId
+          })
+        });
+        if (response.status == 200) {
+           var playerReady = await response.json();
+           return playerReady;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

@@ -61,7 +61,7 @@ router.post('/actions/player/:pId', async function(req, res, next) {
         let result = await cModel.removeCardBecauseDeath(cId, pId)
         res.status(result.status).send(result.result)
     }else
-    res.status(400).send({msg:"Invalid action"})
+        res.status(400).send({msg:"Invalid action"})
     
 
 });
