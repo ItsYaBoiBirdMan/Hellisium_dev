@@ -234,7 +234,7 @@ async function mousePressed() {
         for (let card of mytable) {
             if (card.click(mouseX, mouseY)) { 
                 card.deselect();
-                returnCard(playerId, card)              
+                returnCard(playerId, card);              
             } 
         }
     } else {        
@@ -243,8 +243,8 @@ async function mousePressed() {
         } else {
             for (let card of mytable) {
                 if(card.click(mouseX, mouseY)){
-                    let myCardAtk = card.getAtk()
-                    console.log(myCardAtk)
+                    let myCardAtk = card.getAtk();
+                    console.log(myCardAtk);
 
                 }
             }
@@ -255,35 +255,35 @@ async function mousePressed() {
                 let attacked = tableCard.hasAttacked()
                 if (card.click(mouseX, mouseY)){
                    await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
-                   await requestSetAttacked(tableCard.getId(), playerId)
+                   await requestSetAttacked(tableCard.getId(), playerId);
                 }
             }
         }
     }
     for (let card of optable) {
         if(card.getHp() <= 0){
-            removeCard(opponentId, card.getId())
+            removeCard(opponentId, card.getId());
        } else {
-            returnCard(opponentId, card.getId())
+            returnCard(opponentId, card.getId());
        }
     }
     for (let card of mytable) {
         if(card.getHp() <= 0){
-            removeCard(playerId, card.getId())
+            removeCard(playerId, card.getId());
        } else {
-            returnCard(playerId, card.getId())
+            returnCard(playerId, card.getId());
        }
     }
 }
 
 async function placeCard(pId, card, slot) {
-    await requestPlaceCardOnSlot(pId, card.getId(), slot.getId())
+    await requestPlaceCardOnSlot(pId, card.getId(), slot.getId());
     await loadCards();
     await loadBoard();
 }
 
 async function returnCard(pId, card){
-    await requestReturnCardToHand(pId, card.getId())
+    await requestReturnCardToHand(pId, card.getId());
     await loadCards();
     await loadBoard();
 }
@@ -296,13 +296,13 @@ function returnSelected(cardList) {
 }
 
 async function attackOpponentCard(pId, cardatk, target, opId){
-    await requestAttackCard(pId, cardatk, target, opId)
-    await loadBoard()
-    await loadCards()
+    await requestAttackCard(pId, cardatk, target, opId);
+    await loadBoard();
+    await loadCards();
 }
 
 async function removeCard(pId, card){
-    await requestRemoveCard(pId, card)
+    await requestRemoveCard(pId, card);
     await loadBoard();
     await loadCards();
 }
