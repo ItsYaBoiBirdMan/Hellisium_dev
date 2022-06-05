@@ -22,7 +22,7 @@ router.post('/login', async function(req, res, next) {
     let result = await pModel.loginCheck(name,password);
     if (result.status == 200) {
         auth.saveUserId(res,result.result.userId);
-        res.status(result.status).send({msg:"User logged in"});
+        res.status(result.status).send(result.result);
     } else  res.status(result.status).send(result.result); 
 });
 

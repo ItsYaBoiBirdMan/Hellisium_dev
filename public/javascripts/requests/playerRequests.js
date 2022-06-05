@@ -43,8 +43,8 @@ async function requestLogin(name, password) {
                 password: password
             }) 
         });
-        var  result= await response.json();
-        return {logged: response.status == 200 , result: result };
+        var result = await response.json();
+        return result;
     } catch (err) {
         // Treat 500 errors here
         console.log(err);

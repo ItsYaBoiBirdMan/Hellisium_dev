@@ -1,5 +1,5 @@
-let playerId = 1
-let opponentId = 2
+let playerId = sessionStorage.getItem("pId")
+let opponentId = sessionStorage.getItem("oId")
 let gameId = 1
 
 window.onload = async function() {
