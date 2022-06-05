@@ -103,3 +103,19 @@ async function requestSetPlayerReady(gId, pId){
         console.log(err);
     }
 }
+
+async function requestPlayerGameInfo(pId, gId){
+    try {
+        const response = await fetch(`/api/game/${gId}/playerinfo/${pId}`);
+        if (response.status == 200) {
+           var gamePlayer = await response.json();
+           return gamePlayer;
+        } else {
+            // Treat errors like 404 here
+            console.log(response);
+        }
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+    }
+}

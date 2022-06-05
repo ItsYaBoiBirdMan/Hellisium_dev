@@ -23,6 +23,14 @@ router.get('/:gId', async function(req, res, next){
     res.status(result.status).send(result.result);
 });
 
+router.get('/:gId/playerinfo/:pId', async function(req, res, next){
+    let gId = req.params.gId;
+    let pId = req.params.pId
+    console.log("Get info from player with id " + pId + " in game with id " + gId);
+    let result = await gModel.getPlayerGameInfo(pId, gId)
+    res.status(result.status).send(result.result);
+});
+
 router.post('/:gId/state', async function(req, res, next){
     let gId = req.params.gId;
     let staId = req.body.state

@@ -30,6 +30,14 @@ a {
   margin:8px 70px;
 }
 
+.btnReady {
+  top:400px;
+  left:600px;
+  position: absolute;
+  padding: 5px 20px;
+  margin:8px 70px;
+}
+
 .center {
   top:5%;
   left:45%;

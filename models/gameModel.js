@@ -82,3 +82,19 @@ module.exports.setPlayerReady = async function(pId, gId){
     return { status: 500, result: err }
   }
 }
+
+module.exports.getPlayerGameInfo = async function(pId, gId){
+  try{
+    let sql = `select game_player_id, game_player_ready, player_name, player_hp
+               from game, player
+               where game_player_id = $1
+               and game_room_id = $2
+               and game_player_id = player_id`
+    let result = await pool.query(sql, [pId, gId])
+    let pGameInfo = result.rows[0];
+    return { status: 200, result: pGameInfo}
+  } catch (err) {
+    console.log(err)
+    return { status: 500, result: err }
+  }
+}

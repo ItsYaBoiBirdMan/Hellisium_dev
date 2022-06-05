@@ -72,8 +72,8 @@ async function setup() {
 }
 
 async function loadInfo() {
-    myInfo = await requestPlayerInfoById(playerId);
-    opInfo = await requestPlayerInfoById(opponentId);
+    myInfo = await requestPlayerGameInfo(playerId, gameId);
+    opInfo = await requestPlayerGameInfo(opponentId, gameId);
     gameInfo = await requestGameInfoById(gameId);
     for(let game of gameInfo) {
         if (game.game_state === 2){
