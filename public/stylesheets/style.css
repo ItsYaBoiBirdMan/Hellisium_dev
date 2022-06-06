@@ -22,9 +22,17 @@ a {
   margin:8px 70px;
 }
 
-.btnResetHp {
+.btnExit {
   top:15px;
   left:800px;
+  position: absolute;
+  padding: 5px 20px;
+  margin:8px 70px;
+}
+
+.btnResetHp {
+  top:15px;
+  left:900px;
   position: absolute;
   padding: 5px 20px;
   margin:8px 70px;
