@@ -118,6 +118,7 @@ async function loadCards () {
     opponent = [];
 
     for (let card of myCards) {
+        console.log(card.deck_card_attacked)
         if (card.deck_card_place === 1) {
             handPos++;
             if (handPos > 2 && handPos <= 4){
@@ -252,28 +253,29 @@ async function mousePressed() {
         }
 
         if(tableCard){
+            let attacked = tableCard.hasAttacked()
+            console.log(attacked)
             for (let card of optable) {
-                let attacked = tableCard.hasAttacked()
-                if (card.click(mouseX, mouseY)){
-                   await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
-                   await requestSetAttacked(tableCard.getId(), playerId);
+                if (card.click(mouseX, mouseY) && attacked === false){
+                    await requestSetAttacked(tableCard.getId(), playerId);
+                    await attackOpponentCard(playerId, tableCard.getAtk(), card.getId(), opponentId);
+                    await requestSetAttacked(tableCard.getId(), playerId);
+                } else {
+                    tableCard.deselect();
+                    card.deselect();
                 }
             }
-        }
+        } 
     }
     for (let card of optable) {
         if(card.getHp() <= 0){
             removeCard(opponentId, card.getId());
-       } else {
-            returnCard(opponentId, card.getId());
        }
     }
     for (let card of mytable) {
         if(card.getHp() <= 0){
             removeCard(playerId, card.getId());
-       } else {
-            returnCard(playerId, card.getId());
-       }
+       } 
     }
 }
 

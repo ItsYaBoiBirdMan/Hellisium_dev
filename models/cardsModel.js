@@ -16,7 +16,7 @@ module.exports.getAllCards = async function () {
 
   module.exports.getPlayerDeckById = async function (pId) {
     try {
-      let sql = `Select deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp,
+      let sql = `Select deck_id, deck_player_id, deck_card_id, deck_card_place, deck_current_hp, deck_card_attacked,
                  card_id, card_name, card_atk, card_effect,
                  player_id, player_name
                  from deck, card, player
@@ -259,7 +259,7 @@ module.exports.checkIfCardAttacked = async function (cId, pId){
                and deck_card_attacked = true`
     let result = await pool.query(sql, [cId, pId])
     if(result.rows.length === 0){
-      let attackCheck = result.rows
+      let attackCheck = result.rows[0]
       return { status: 200, result: attackCheck }
     } else {
       return { status: 404, result: { msg:"That card has already attacked" } }
