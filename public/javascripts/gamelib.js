@@ -85,6 +85,7 @@ async function loadInfo() {
             enemyVisible = false;
             cardsPlaceable = true;
             gameState = game.game_state;
+            await requestSetNotAttacked(playerId)
             console.log(gameState);
         }
     }  

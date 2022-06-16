@@ -250,10 +250,9 @@ async function requestSetAttacked (cId, pId){
     }
 }
 
-async function requestSetNotAttacked (cId, pId){
+async function requestSetNotAttacked (pId){
     try{
         console.log({
-            card: cId,
             state: "notAttacked"
         })
         const response = await fetch(`/api/cards/attackstate/player/${pId}`, 
@@ -264,7 +263,6 @@ async function requestSetNotAttacked (cId, pId){
             },
           method: "POST",
           body: JSON.stringify({
-            card: cId,
             state: "notAttacked"
           })
         });

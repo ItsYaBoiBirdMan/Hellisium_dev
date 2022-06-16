@@ -77,8 +77,8 @@ router.post('/attackstate/player/:pId', async function(req, res, next) {
         res.status(result.status).send(result.result);
     } else if (sta === "notAttacked") {
         console.log(`
-        Set card with id ` + cId + ` from player with id ` + pId + ` to not attacked`)
-        let result = await cModel.setCardToNotAttacked(cId, pId)
+        All cards were set to not attacked`)
+        let result = await cModel.setCardToNotAttacked()
         res.status(result.status).send(result.result);
     } else
     res.status(400).send({msg:"Invalid state"})

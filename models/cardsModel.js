@@ -284,12 +284,10 @@ module.exports.setCardToAttacked = async function (cId, pId) {
   }
 }
 
-module.exports.setCardToNotAttacked = async function (cId, pId) {
+module.exports.setCardToNotAttacked = async function () {
   try{
-    let sql = `update deck set deck_card_attacked = false
-               where deck_card_id = $1
-               and deck_player_id = $2`
-    let result = await pool.query(sql, [cId, pId])
+    let sql = `update deck set deck_card_attacked = false`
+    let result = await pool.query(sql)
     let setNotAttacked = result.rows
     return { status: 200, result: setNotAttacked }
   } catch (err) {
