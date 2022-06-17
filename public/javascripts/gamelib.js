@@ -75,6 +75,7 @@ async function loadInfo() {
     myInfo = await requestPlayerGameInfo(playerId, gameId);
     opInfo = await requestPlayerGameInfo(opponentId, gameId);
     gameInfo = await requestGameInfoById(gameId);
+    
     for(let game of gameInfo) {
         if (game.game_state === 2){
             enemyVisible = true;
@@ -88,7 +89,14 @@ async function loadInfo() {
             await requestSetNotAttacked(playerId)
             console.log(gameState);
         }
-    }  
+    }
+    
+    /*if(myInfo.game_player_ready === true && opInfo.game_player_ready === true){
+        await stateChange(1, 2)
+    } else if (myInfo.game_player_ready === false && opInfo.game_player_ready === false) {
+        await stateChange(1, 1)
+    }*/
+
 };
     
 
@@ -118,7 +126,6 @@ async function loadCards () {
     opponent = [];
 
     for (let card of myCards) {
-        console.log(card.deck_card_attacked)
         if (card.deck_card_place === 1) {
             handPos++;
             if (handPos > 2 && handPos <= 4){
@@ -156,22 +163,22 @@ async function loadCards () {
     }
     for (let card of opCards) {
         if (card.deck_card_place != 1 && card.deck_card_place != 8) {
-            if (card.deck_card_place === 5) {
+            if (card.deck_card_place === 7) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.one.x, TABLE.one.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 6) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.two.x, TABLE.two.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
-            } else if (card.deck_card_place === 7) {
+            } else if (card.deck_card_place === 5) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.three.x, TABLE.three.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
-            } else if (card.deck_card_place === 2) {
+            } else if (card.deck_card_place === 4) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.four.x, TABLE.four.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } else if (card.deck_card_place === 3) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.five.x, TABLE.five.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
-            } else if (card.deck_card_place === 4) {
+            } else if (card.deck_card_place === 2) {
                 optable.push(new Card(card.deck_card_id, card.card_name, card.card_atk, card.deck_current_hp, 
                 TABLE.six.x, TABLE.six.y - OPSPACE, card.deck_card_place, card.deck_card_attacked));
             } 
@@ -277,6 +284,7 @@ async function mousePressed() {
             removeCard(playerId, card.getId());
        } 
     }
+    
 }
 
 async function placeCard(pId, card, slot) {
@@ -306,6 +314,13 @@ async function attackOpponentCard(pId, cardatk, target, opId){
 
 async function removeCard(pId, card){
     await requestRemoveCard(pId, card);
+    await loadBoard();
+    await loadCards();
+}
+
+async function stateChange(gId, staId){
+    await requestStateChange(gId, staId);
+    await loadInfo();
     await loadBoard();
     await loadCards();
 }

@@ -250,26 +250,6 @@ module.exports.resetCardsHp = async function(){
   }
 }
 
-module.exports.checkIfCardAttacked = async function (cId, pId){
-  try{
-    let sql = `select deck_card_id, deck_player_id, deck_card_attacked
-               from deck
-               where deck_card_id = $1
-               and deck_player_id = $2
-               and deck_card_attacked = true`
-    let result = await pool.query(sql, [cId, pId])
-    if(result.rows.length === 0){
-      let attackCheck = result.rows[0]
-      return { status: 200, result: attackCheck }
-    } else {
-      return { status: 404, result: { msg:"That card has already attacked" } }
-    } 
-  } catch (err) {
-    console.log(err);
-    return{ status: 500, return: err }
-  }
-}
-
 module.exports.setCardToAttacked = async function (cId, pId) {
   try{
     let sql = `update deck set deck_card_attacked = true
