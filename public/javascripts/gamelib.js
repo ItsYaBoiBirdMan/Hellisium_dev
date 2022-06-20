@@ -91,11 +91,11 @@ async function loadInfo() {
         }
     }
     
-    if(myInfo.game_player_ready === true && opInfo.game_player_ready === true){
+    /*if(myInfo.game_player_ready === true && opInfo.game_player_ready === true){
         await stateChange(1, 2)
     } else if (myInfo.game_player_ready === false && opInfo.game_player_ready === false) {
         await stateChange(1, 1)
-    }
+    }*/
 
 };
     
